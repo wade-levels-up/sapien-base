@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { fetchUsers } from "@/app/lib/data";
 
 type User = {
