@@ -10,6 +10,7 @@ type User = {
 
 export default async function UserCard() {
   const users = await fetchUsers();
+  console.log("Fetched users:", users);
   return (
     <div>
       <h1>Hi</h1>
