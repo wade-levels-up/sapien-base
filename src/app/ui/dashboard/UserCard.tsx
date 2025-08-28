@@ -1,6 +1,6 @@
 import { fetchUsers } from "@/app/lib/data";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1; //revalidate api every 1 second
 
 type User = {
   id: string;
