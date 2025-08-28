@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   description: "A dystopian social media site",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{
