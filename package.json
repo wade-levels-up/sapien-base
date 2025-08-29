@@ -10,6 +10,11 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-regular-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^3.0.1",
     "@prisma/client": "^6.14.0",
     "next": "15.5.0",
     "react": "19.1.0",

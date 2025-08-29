@@ -1,12 +1,7 @@
 import { fetchUsers } from "@/app/lib/data";
+import type { User } from "@/app/lib/definitions";
 
-type User = {
-  id: string;
-  firstName: string;
-  lastName: string;
-};
-
-export default async function UserCard() {
+export default async function UserList() {
   const users = await fetchUsers();
   console.log("Fetched users:", users);
   return (
