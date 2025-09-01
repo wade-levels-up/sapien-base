@@ -1,20 +1,17 @@
-"use client";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
-
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
+
+// Keeping FontAwesome Imports here for syntax example until used in another component
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center">
       <h1>Sapien Base</h1>
-      <Link href="/login">
-        <div className="flex gap-[6px] justify-between items-center p-2 border border-white rounded-xl hover:border-emerald-500 hover:text-emerald-500">
-          <span>Log in</span>
-          <FontAwesomeIcon icon={faRightToBracket} />
-        </div>
-      </Link>
+      <SignedIn>
+        <Link href="/dashboard">Continue to dashboard</Link>
+      </SignedIn>
     </div>
   );
 }

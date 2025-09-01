@@ -1,7 +1,7 @@
 import { fetchUsers } from "@/app/lib/data";
 import type { User } from "@/app/lib/definitions";
 
-export default async function UserList() {
+export default async function UsersList() {
   const users = await fetchUsers();
   console.log("Fetched users:", users);
   return (
