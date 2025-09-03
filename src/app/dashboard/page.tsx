@@ -8,7 +8,7 @@ export default async function Dashboard() {
   if (!userId) redirect("/");
   return (
     <div>
-      <h1>{`${user?.firstName}'s`} Dashboard Page</h1>
+      <h2>{`${user?.firstName}'s`} Dashboard Page</h2>
     </div>
   );
 }

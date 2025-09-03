@@ -30,22 +30,32 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${turret_road.className} antialiased`}>
-          <header className="flex justify-end items-center p-4 gap-4 h-16 border-b-1">
-            <SignedOut>
-              <span className="border border-white rounded-xl p-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faRightToBracket} />
-                <SignInButton />
-              </span>
-              <span className="border border-white rounded-xl p-2">
-                <SignUpButton />
-              </span>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+        <body
+          className={`${turret_road.className} flex flex-col antialiased h-full min-h-screen`}
+        >
+          <header className="flex justify-between items-center py-1 px-4 border-b-1">
+            <h1>Sapien Base</h1>
+            <div className="flex gap-2">
+              <SignedOut>
+                <span className="button">
+                  <FontAwesomeIcon icon={faRightToBracket} />
+                  <SignInButton />
+                </span>
+                <span className="button">
+                  <SignUpButton />
+                </span>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
           </header>
-          {children}
+          <div className="grow">{children}</div>
+          <footer className="flex justify-end items-center p-4 gap-4 h-16 border-t-1">
+            <a href="https://wadelevelsup.com/" target="blank">
+              Made by Wade
+            </a>
+          </footer>
         </body>
       </html>
     </ClerkProvider>

@@ -2,11 +2,9 @@ import NavLinks from "@/app/ui/dashboard/NavLinks";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col">
-      <div>
-        <NavLinks />
-      </div>
-      <div>{children}</div>
+    <div className="flex h-full">
+      <NavLinks />
+      <main className="px-4 grow">{children}</main>
     </div>
   );
 }

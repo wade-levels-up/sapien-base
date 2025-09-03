@@ -1,5 +1,6 @@
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/nextjs";
 import Link from "next/link";
+import Image from "next/image";
 
 // Keeping FontAwesome Imports here for syntax example until used in another component
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,10 +8,17 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center">
-      <h1>Sapien Base</h1>
+    <div className="relative flex flex-col items-center">
+      <Image
+        src="/jessica-christian-sI6T-OSRkpo-unsplash.jpg"
+        alt="Rooftop views in Orlando at night"
+        width={5472}
+        height={3648}
+      />
       <SignedIn>
-        <Link href="/dashboard">Continue to dashboard</Link>
+        <Link className="absolute top-[50%] text-3xl" href="/dashboard">
+          Continue to dashboard
+        </Link>
       </SignedIn>
     </div>
   );

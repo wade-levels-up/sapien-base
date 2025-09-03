@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #161616;
+  --foreground: #f8f8f8;
+  --emerald: oklch(69.6% 0.17 162.48);
   font-size: 16px;
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
@@ -27,4 +27,28 @@ h1 {
 
 h2 {
   font-size: 3rem;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  cursor: pointer;
+  color: var(--emerald);
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--foreground);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.button:hover {
+  cursor: pointer;
+  border: 1px solid var(--emerald);
+  color: var(--emerald);
 }
