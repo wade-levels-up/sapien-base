@@ -3,7 +3,6 @@
 
 export type User = {
   id: string;
-  clerkId: string;
   firstName: string;
   lastName: string;
 };
