@@ -26,3 +26,16 @@ export async function fetchPosts() {
     throw new Error('Failed to fetch posts');
   }
 }
+
+export async function createPost(authorId: string, content: string) {
+  try {
+    await prisma.post.create({
+      data: {
+        authorId, content 
+      }
+    })
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create post');
+  }
+}

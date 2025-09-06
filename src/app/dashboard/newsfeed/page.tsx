@@ -12,6 +12,7 @@ export default async function NewsFeed() {
   return (
     <>
       <h2>Newsfeed</h2>
+      <h3>Create New Post +</h3>
       <ul>
         {posts && posts.map((post) => <Post key={post.id} postData={post} />)}
       </ul>
