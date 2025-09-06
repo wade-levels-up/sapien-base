@@ -11,13 +11,12 @@ export default async function NewsFeed() {
   const posts = await fetchPosts();
 
   return (
-    <>
+    <div className="flex gap-2 flex-col">
       <h2>Newsfeed</h2>
-      <h3>Create New Post +</h3>
       <CreatePostForm />
-      <ul>
+      <ul className="flex flex-wrap">
         {posts && posts.map((post) => <Post key={post.id} postData={post} />)}
       </ul>
-    </>
+    </div>
   );
 }

@@ -38,16 +38,17 @@ a:hover {
   color: var(--emerald);
 }
 
-.button {
+.button, button {
+  max-width: fit-content;
   display: flex;
   align-items: center;
   gap: 8px;
   border: 1px solid var(--foreground);
   border-radius: 12px;
-  padding: 8px;
+  padding: 2px 20px;
 }
 
-.button:hover {
+.button:hover, button:hover {
   cursor: pointer;
   border: 1px solid var(--emerald);
   color: var(--emerald);

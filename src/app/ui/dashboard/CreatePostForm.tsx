@@ -25,18 +25,32 @@ export default function CreatePostForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
+    <form
+      className="border-emerald-500/30 border rounded-sm p-2 w-xl flex flex-col gap-4"
+      onSubmit={handleSubmit}
+    >
+      <label className="bg-emerald-950 px-1 rounded-sm" htmlFor="content">
+        + Create New Post:
+      </label>
+      <textarea
+        className="px-2 py-2 rounded-lg border-b-1 border-white/30"
+        id="content"
+        name="content"
         value={content}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setContent(e.target.value)
         }
-        placeholder="What's on your mind?"
+        placeholder="Empty your thoughts..."
+        rows={4}
       />
-      <button type="submit" disabled={loading}>
-        Post
-      </button>
+      <div className="flex gap-2 justify-between">
+        <button type="button" onClick={() => setContent("")}>
+          Reset
+        </button>
+        <button type="submit" disabled={loading}>
+          Post
+        </button>
+      </div>
     </form>
   );
 }
