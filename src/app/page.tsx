@@ -8,12 +8,13 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="relative flex flex-col items-center h-full">
       <Image
         src="/jessica-christian-sI6T-OSRkpo-unsplash.jpg"
         alt="Rooftop views in Orlando at night"
-        width={5472}
-        height={3648}
+        fill
+        className="absolute object-cover z-0"
+        priority
       />
       <SignedIn>
         <Link className="absolute top-[50%] text-3xl" href="/dashboard">

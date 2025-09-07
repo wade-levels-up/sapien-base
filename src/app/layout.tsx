@@ -37,13 +37,15 @@ export default function RootLayout({
             <h1>Sapien Base</h1>
             <div className="flex gap-2">
               <SignedOut>
-                <span className="button">
-                  <FontAwesomeIcon icon={faRightToBracket} />
-                  <SignInButton />
-                </span>
-                <span className="button">
-                  <SignUpButton />
-                </span>
+                <SignInButton>
+                  <div className="button no">
+                    <FontAwesomeIcon icon={faRightToBracket} />
+                    <p>Sign In</p>
+                  </div>
+                </SignInButton>
+                <SignUpButton>
+                  <p className="button">Sign Up</p>
+                </SignUpButton>
               </SignedOut>
               <SignedIn>
                 <UserButton />

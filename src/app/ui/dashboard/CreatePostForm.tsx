@@ -26,10 +26,13 @@ export default function CreatePostForm() {
 
   return (
     <form
-      className="border-emerald-500/30 border rounded-sm p-2 w-xl flex flex-col gap-4"
+      className="border-emerald-500/30 border rounded-sm p-2 flex flex-col gap-4"
       onSubmit={handleSubmit}
     >
-      <label className="bg-emerald-950 px-1 rounded-sm" htmlFor="content">
+      <label
+        className="w-[80vw] md:w-lg bg-emerald-950 px-1 rounded-sm"
+        htmlFor="content"
+      >
         + Create New Post:
       </label>
       <textarea
