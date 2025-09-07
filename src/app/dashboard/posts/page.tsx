@@ -16,7 +16,7 @@ export default async function NewsFeed() {
         <h2 className="w-full text-left">Newsfeed</h2>
         <CreatePostForm />
       </section>
-      <hr className="my-4" />
+      <hr />
       <h3>Posts</h3>
       <ul className="flex gap-4 flex-wrap">
         {posts && posts.map((post) => <Post key={post.id} postData={post} />)}

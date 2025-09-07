@@ -1,5 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { fetchUser } from "@/app/lib/data";
+import UserBioSection from "@/app/ui/dashboard/UserBioSection";
 import Image from "next/image";
 
 export default async function Profile() {
@@ -7,7 +8,7 @@ export default async function Profile() {
   const dbUser = await fetchUser();
 
   return (
-    <div className="w-full flex flex-col items-center gap-4">
+    <div className="w-full flex flex-col items-center gap-4 py-4">
       <h2>{`${user?.firstName}'s Profile`}</h2>
       <span className="flex">
         <p>Details securely provided by</p>
@@ -15,7 +16,7 @@ export default async function Profile() {
           Clerk
         </a>
       </span>
-      <div className="flex gap-4 flex-col md:flex-row">
+      <div className="flex gap-4 flex-col md:flex-row items-center">
         <div className="relative w-[192px] h-[192px] md:w-[256px] md:h-[256px]">
           {user?.hasImage && (
             <Image
@@ -23,7 +24,7 @@ export default async function Profile() {
               alt={`${user?.firstName}'s Picture`}
               fill
               sizes="256px"
-              className="cover"
+              className="cover rounded-xl border-2 border-emerald-950"
             />
           )}
         </div>
@@ -51,17 +52,7 @@ export default async function Profile() {
           </li>
         </ul>
       </div>
-      {dbUser?.bio ? (
-        <section>
-          <h3>Bio:</h3>
-          <p>{dbUser?.bio}</p>
-        </section>
-      ) : (
-        <div className="flex gap-2 items-center">
-          <span>You do not have a bio yet...</span>
-          <button>Add Bio?</button>
-        </div>
-      )}
+      <UserBioSection bio={dbUser?.bio} />
     </div>
   );
 }

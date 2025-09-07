@@ -38,6 +38,10 @@ a:hover {
   color: var(--emerald);
 }
 
+hr {
+  margin: 12px 0;
+}
+
 .button, button {
   min-width: fit-content;
   display: flex;
@@ -52,6 +56,12 @@ a:hover {
   cursor: pointer;
   border: 1px solid var(--emerald);
   color: var(--emerald);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  color: gray;
+  border: 1px solid gray;
 }
 
 @media (max-width: 500px ){

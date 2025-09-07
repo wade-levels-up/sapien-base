@@ -92,3 +92,17 @@ export async function createPost(authorId: string, content: string) {
     throw new Error('Failed to create post');
   }
 }
+
+export async function updateBio(userId: string, content: string) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        bio: content
+      }
+    })
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to update bio');
+  }
+}
