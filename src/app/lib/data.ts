@@ -2,12 +2,18 @@ import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
 import type { User } from '@/app/lib/definitions';
 
-
-export async function fetchUsers() {
+/**
+ * Fetches the logged in user's details from the database.
+ * Returns id, firstName, lastName and bio for each user.
+ * Throws an error if the fetch fails.
+ */
+export async function fetchUser() {
+  const user = await currentUser();
   try {
-    const users = await prisma.user.findMany({
+    const users = await prisma.user.findUnique({
+      where: { id: user?.id},
         select: {
-            id: true, firstName: true, lastName: true
+            id: true, firstName: true, lastName: true, bio: true
         }
     });
     return users;
@@ -17,21 +23,48 @@ export async function fetchUsers() {
   }
 }
 
+/**
+ * Fetches a list of users from the database.
+ * Only returns firstName, lastName and bio for each user.
+ * Throws an error if the fetch fails.
+ */
+export async function fetchUsers() {
+  try {
+    const users = await prisma.user.findMany({
+        select: {
+            firstName: true, lastName: true, bio: true
+        }
+    });
+    return users;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data');
+  }
+}
+
+/**
+ * Checks the clerkId of the logged in user against the database.
+ * If no matches are found a new user is created in the User database table with their clerkId set as their id.
+ * Throws an error if unable to create the user.
+ */
 export async function createUserOnDemand() {
   const user = await currentUser();
-
-  // Check if user with clerkId has a matching user in the database
   const dbUser = await prisma.user.findUnique({ where: { id: user?.id } });
-  
-  // If not, create a new user using their clerkId as the user id
+
   if (!dbUser) {
-    await prisma.user.create({
-      data: {
-        id: user?.id,
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-      } as User,
-    });
+    try {
+      await prisma.user.create({
+        data: {
+          id: user?.id,
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          profilePicturePath: user?.imageUrl
+        } as User,
+      });
+    } catch(error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to create user on-demand');
+    }
   }
 }
 
