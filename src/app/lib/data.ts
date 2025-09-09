@@ -71,7 +71,7 @@ export async function createUserOnDemand() {
 export async function fetchPosts() {
   try {
     const posts = await prisma.post.findMany({
-      include: { author: { select: { firstName: true } } }
+      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} } }
     });
     return posts;
   } catch (error) {
@@ -104,6 +104,17 @@ export async function createLike(postId: string, userId: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create like on post');
+  }
+}
+
+export async function deleteLike(postId: string, userId:string) {
+  try {
+    await prisma.like.deleteMany({
+      where: { postId: postId, userId: userId }
+    })
+  } catch (error) {
+    console.error("Database Error", error);
+    throw new Error('Unabled to delete like from post');
   }
 }
 

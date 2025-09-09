@@ -66,4 +66,7 @@ model Like {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime @default(now())
+
+  // Enforce each combination of postId and userId is unique to prevent duplicate Likes
+  @@unique([postId, userId])
 }

@@ -19,7 +19,10 @@ export default async function NewsFeed() {
       <hr />
       <h3>Posts</h3>
       <ul className="flex gap-4 flex-wrap">
-        {posts && posts.map((post) => <Post key={post.id} postData={post} />)}
+        {posts &&
+          posts.map((post) => (
+            <Post key={post.id} postData={post} userId={userId} />
+          ))}
       </ul>
     </div>
   );
