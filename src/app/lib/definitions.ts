@@ -5,4 +5,6 @@ export type User = {
   id: string;
   firstName: string;
   lastName: string;
+  bio?: string;
+  profilePicturePath?: string;
 };

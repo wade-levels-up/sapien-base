@@ -32,7 +32,7 @@ export async function fetchUsers() {
   try {
     const users = await prisma.user.findMany({
         select: {
-            firstName: true, lastName: true, bio: true
+            id: true, firstName: true, lastName: true, bio: true
         }
     });
     return users;
@@ -90,6 +90,20 @@ export async function createPost(authorId: string, content: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create post');
+  }
+}
+
+export async function createLike(postId: string, userId: string) {
+  try {
+    await prisma.like.create({
+      data: {
+        postId: postId,
+        userId: userId
+      }
+    })
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create like on post');
   }
 }
 
