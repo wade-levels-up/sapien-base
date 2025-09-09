@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faUndo } from "@fortawesome/free-solid-svg-icons";
 import { createLikeAction, deleteLikeAction } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type LikeButtonProps = {
   postId: string;
@@ -11,21 +12,27 @@ type LikeButtonProps = {
 };
 
 export default function LikeButton({ postId, userHasLiked }: LikeButtonProps) {
+  const [loading, setLoading] = useState(false);
+  const [optimisticLiked, setOptimisticLiked] = useState(userHasLiked);
   const router = useRouter();
 
-  const handleClick = () => {
-    if (!userHasLiked) createLikeAction(postId);
-    if (userHasLiked) deleteLikeAction(postId);
+  async function handleClick() {
+    setLoading(true);
+    setOptimisticLiked(!userHasLiked);
+    if (!userHasLiked) await createLikeAction(postId);
+    if (userHasLiked) await deleteLikeAction(postId);
     router.refresh();
-  };
+    setLoading(false);
+  }
 
   return (
     <button
+      disabled={loading}
       onClick={handleClick}
-      title={userHasLiked ? "Already liked" : "Like"}
+      title={optimisticLiked ? "Already liked" : "Like"}
     >
-      <FontAwesomeIcon icon={userHasLiked ? faUndo : faThumbsUp} />
-      {userHasLiked ? "Unlike" : "Like"}
+      <FontAwesomeIcon icon={optimisticLiked ? faUndo : faThumbsUp} />
+      {optimisticLiked ? "Unlike" : "Like"}
     </button>
   );
 }
