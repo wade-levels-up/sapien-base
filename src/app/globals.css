@@ -64,8 +64,12 @@ button:disabled {
   border: 1px solid gray;
 }
 
+button:focus {
+  outline: 2px solid var(--emerald);
+}
+
 @media (max-width: 500px ){
   h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.35rem; }
-  h3 { font-size: 1.20rem; }
+  h2 { font-size: 1.40rem; }
+  h3 { font-size: 1.35rem; }
 }

@@ -17,7 +17,10 @@ export default function Home() {
         priority
       />
       <SignedIn>
-        <Link className="absolute top-[50%] text-3xl" href="/dashboard">
+        <Link
+          className="absolute top-[50%] text-3xl"
+          href="/dashboard/newsfeed"
+        >
           Continue to dashboard
         </Link>
       </SignedIn>

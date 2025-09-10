@@ -9,7 +9,7 @@ export default function Post({ postData, userId }) {
     const userHasLiked = likeUserIds.includes(userId);
 
     return (
-        <article className="flex flex-col w-sm border-emerald-500/30 border rounded-sm p-2">
+        <article className="flex h-full flex-col w-md border-emerald-500/30 border rounded-sm p-2">
             <div className="flex justify-between bg-emerald-950 px-1 rounded-sm">
                 <h4>{authorName}</h4>
                 <time dateTime={new Date(createdAt).toISOString()}>

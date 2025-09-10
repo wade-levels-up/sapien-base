@@ -4,7 +4,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-full flex-col-reverse md:flex-row">
       <NavLinks />
-      <main className="px-4 grow">{children}</main>
+      <main className="px-4 w-full h-full">{children}</main>
     </div>
   );
 }
