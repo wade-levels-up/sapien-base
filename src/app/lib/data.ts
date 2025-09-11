@@ -32,7 +32,7 @@ export async function fetchUsers() {
   try {
     const users = await prisma.user.findMany({
         select: {
-            id: true, firstName: true, lastName: true, bio: true
+            id: true, firstName: true, lastName: true, bio: true, profilePicturePath: true
         }
     });
     return users;

@@ -13,6 +13,9 @@ export default function NavLinks() {
           <Link href={"/dashboard/myposts"}>My Posts</Link>
         </li>
         <li>
+          <Link href={"/dashboard/users"}>Users</Link>
+        </li>
+        <li>
           <Link href={"/dashboard/newsfeed"}>News Feed</Link>
         </li>
       </ul>
