@@ -10,11 +10,11 @@ export default async function NewsFeed() {
   const posts = await fetchPosts();
 
   return (
-    <div className="flex gap-2 flex-col py-4 h-full w-full">
+    <div className="flex gap-2 flex-col py-4 max-h-full w-full">
       <h2 className="w-full text-center">Newsfeed</h2>
       <hr />
       <h3 className="w-full text-center">Posts</h3>
-      <ul className="flex items-center gap-4 overflow-x-auto">
+      <ul className="flex flex-col no-wrap max-h-full items-center gap-4 overflow-auto">
         {posts &&
           posts.map((post) => (
             <Post key={post.id} postData={post} userId={userId} />

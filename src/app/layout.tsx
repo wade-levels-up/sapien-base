@@ -52,7 +52,7 @@ export default function RootLayout({
               </SignedIn>
             </div>
           </header>
-          <div className="grow">{children}</div>
+          <div className="grow overflow-auto">{children}</div>
           <footer className="flex justify-end items-center p-4 gap-4 h-16 border-t-1">
             <a href="https://wadelevelsup.com/" target="blank">
               Made by Wade
