@@ -80,6 +80,19 @@ export async function fetchPosts() {
   }
 }
 
+export async function fetchUserPosts(userId: string) {
+  try {
+    const posts = await prisma.post.findMany({
+      where: { authorId: userId },
+      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} } }
+    });
+    return posts;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch posts');
+  }
+}
+
 export async function createPost(authorId: string, content: string) {
   try {
     await prisma.post.create({

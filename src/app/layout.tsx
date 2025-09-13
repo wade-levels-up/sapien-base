@@ -53,7 +53,7 @@ export default function RootLayout({
             </div>
           </header>
           <div className="grow overflow-auto">{children}</div>
-          <footer className="flex justify-end items-center p-4 gap-4 h-16 border-t-1">
+          <footer className="md:flex justify-end items-center p-4 gap-4 h-16 border-t-1 hidden">
             <a href="https://wadelevelsup.com/" target="blank">
               Made by Wade
             </a>

@@ -10,9 +10,6 @@ export default function NavLinks() {
           <Link href={"/dashboard/profile"}>Profile</Link>
         </li>
         <li>
-          <Link href={"/dashboard/myposts"}>My Posts</Link>
-        </li>
-        <li>
           <Link href={"/dashboard/users"}>Users</Link>
         </li>
         <li>

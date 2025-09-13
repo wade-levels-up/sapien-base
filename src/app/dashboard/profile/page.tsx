@@ -1,11 +1,15 @@
 import { currentUser } from "@clerk/nextjs/server";
-import { fetchUser } from "@/app/lib/data";
+import { fetchUser, fetchUserPosts } from "@/app/lib/data";
 import UserBioSection from "@/app/ui/dashboard/UserBioSection";
+import Post from "@/app/ui/dashboard/Post";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default async function Profile() {
   const user = await currentUser();
   const dbUser = await fetchUser();
+  if (!user) redirect("/");
+  const userPosts = await fetchUserPosts(user.id);
 
   return (
     <div className="w-full flex flex-col items-center gap-4 py-4">
@@ -53,6 +57,14 @@ export default async function Profile() {
         </ul>
       </div>
       <UserBioSection bio={dbUser?.bio} />
+      <section className="max-w-full">
+        <h3>My Posts</h3>
+        <ul className="flex gap-6 flex-wrap overflow-x-auto">
+          {userPosts.map((post) => (
+            <Post key={post.id} postData={post} userId={user?.id} />
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }
