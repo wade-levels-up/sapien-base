@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import LikeButton from "@/app/ui/dashboard/LikeButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function Post({ postData, userId }) {
     const { id, content, createdAt } = postData;
@@ -28,7 +29,9 @@ export default function Post({ postData, userId }) {
                     {comments.length > 0 && <span title="Comments"><FontAwesomeIcon icon={faComment} /> {comments.length}</span>}
                 </div>
                 <div className="flex gap-2 items-center">
-                    <button>Comments</button>
+                    <Link href={`/dashboard/posts/${id}`}>
+                        <button>Comments</button>
+                    </Link>
                     <LikeButton postId={id} userHasLiked={userHasLiked}/>
                 </div>
             </span>

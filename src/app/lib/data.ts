@@ -68,6 +68,23 @@ export async function createUserOnDemand() {
   }
 }
 
+export async function fetchPost(postId: string) {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: { 
+        author: { select: { firstName: true } }, 
+        likes: { select: { userId: true} }, 
+        comments: { select: { id: true, author: { select: { firstName: true } }, content: true } } 
+      }
+    });
+    return post;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch post');
+  }
+}
+
 export async function fetchPosts() {
   try {
     const posts = await prisma.post.findMany({
@@ -146,5 +163,18 @@ export async function updateBio(userId: string, content: string) {
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to update bio');
+  }
+}
+
+export async function createComment(authorId: string, content: string, postId: string) {
+  try {
+    await prisma.comment.create({
+      data: {
+        authorId: authorId, content: content, postId: postId 
+      }
+    })
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create comment');
   }
 }

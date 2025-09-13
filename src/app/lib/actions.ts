@@ -1,12 +1,18 @@
 "use server";
 
-import { createPost, updateBio, createLike, deleteLike } from "@/app/lib/data";
+import { createPost, updateBio, createLike, deleteLike, createComment } from "@/app/lib/data";
 import { auth } from "@clerk/nextjs/server";
 
 export async function createPostAction(content: string) {
   const { userId } = await auth();
   if (!userId) throw new Error('Unable to find user');
   await createPost(userId, content);
+}
+
+export async function createCommentAction(content: string, postId: string) {
+  const { userId } = await auth();
+  if (!userId) throw new Error('Unable to find user');
+  await createComment(userId, content, postId);
 }
 
 export async function updateBioAction(content: string) {
