@@ -75,7 +75,7 @@ export async function fetchPost(postId: string) {
       include: { 
         author: { select: { firstName: true } }, 
         likes: { select: { userId: true} }, 
-        comments: { select: { id: true, author: { select: { firstName: true } }, content: true } } 
+        comments: { select: { id: true, author: { select: { firstName: true, lastName: true, profilePicturePath: true } }, content: true } } 
       }
     });
     return post;
