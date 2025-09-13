@@ -71,7 +71,7 @@ export async function createUserOnDemand() {
 export async function fetchPosts() {
   try {
     const posts = await prisma.post.findMany({
-      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} } }
+      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } }
     });
     return posts;
   } catch (error) {
@@ -84,7 +84,11 @@ export async function fetchUserPosts(userId: string) {
   try {
     const posts = await prisma.post.findMany({
       where: { authorId: userId },
-      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} } }
+      include: { 
+        author: { select: { firstName: true } }, 
+        likes: { select: { userId: true} }, 
+        comments: { select: { authorId: true, content: true } } 
+      }
     });
     return posts;
   } catch (error) {
