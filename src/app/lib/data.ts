@@ -7,13 +7,12 @@ import type { User } from '@/app/lib/definitions';
  * Returns id, firstName, lastName and bio for each user.
  * Throws an error if the fetch fails.
  */
-export async function fetchUser() {
-  const user = await currentUser();
+export async function fetchUser(userId: string) {
   try {
     const users = await prisma.user.findUnique({
-      where: { id: user?.id},
+      where: { id: userId},
         select: {
-            id: true, firstName: true, lastName: true, bio: true
+            id: true, firstName: true, lastName: true, bio: true, joined: true, profilePicturePath: true
         }
     });
     return users;

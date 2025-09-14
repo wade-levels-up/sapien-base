@@ -5,10 +5,29 @@ import UpdateBioForm from "./UpdateBioForm";
 
 type UserBioSectionProps = {
   bio?: string;
+  otherUserProfile: boolean;
 };
 
-export default function UserBioSection({ bio }: UserBioSectionProps) {
+export default function UserBioSection({
+  bio,
+  otherUserProfile,
+}: UserBioSectionProps) {
   const [updating, setUpdating] = useState(false);
+
+  if (otherUserProfile) {
+    if (bio) {
+      return (
+        <section className="w-full">
+          <h3>Bio:</h3>
+          <p className="px-2 py-4 rounded-lg border-b-1 border-white/30">
+            {bio}
+          </p>
+        </section>
+      );
+    } else {
+      return null;
+    }
+  }
 
   if (updating) {
     return <UpdateBioForm prevContent={bio} setUpdating={setUpdating} />;

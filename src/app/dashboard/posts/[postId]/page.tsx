@@ -15,7 +15,7 @@ type PostPageProps = {
 };
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { postId } = params;
+  const { postId } = await params;
   const user = await currentUser();
   if (!user) redirect("/");
 

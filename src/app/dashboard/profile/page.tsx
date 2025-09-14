@@ -7,8 +7,8 @@ import { redirect } from "next/navigation";
 
 export default async function Profile() {
   const user = await currentUser();
-  const dbUser = await fetchUser();
   if (!user) redirect("/");
+  const dbUser = await fetchUser(user?.id);
   const userPosts = await fetchUserPosts(user.id);
 
   return (
@@ -22,15 +22,13 @@ export default async function Profile() {
       </span>
       <div className="flex gap-4 flex-col md:flex-row items-center">
         <div className="relative w-[192px] h-[192px] md:w-[256px] md:h-[256px]">
-          {user?.hasImage && (
-            <Image
-              src={user?.imageUrl}
-              alt={`${user?.firstName}'s Picture`}
-              fill
-              sizes="256px"
-              className="cover rounded-xl border-2 border-emerald-950"
-            />
-          )}
+          <Image
+            src={user.imageUrl || "/user.jpg"}
+            alt={`${user?.firstName}'s Picture`}
+            fill
+            sizes="256px"
+            className="cover rounded-xl border-2 border-emerald-950"
+          />
         </div>
         <ul>
           <li>
@@ -56,7 +54,7 @@ export default async function Profile() {
           </li>
         </ul>
       </div>
-      <UserBioSection bio={dbUser?.bio} />
+      <UserBioSection bio={dbUser?.bio} otherUserProfile={false} />
       <section className="max-w-full">
         <h3>My Posts</h3>
         <ul className="flex gap-6 flex-wrap overflow-x-auto">
