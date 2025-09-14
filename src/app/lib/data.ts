@@ -2,17 +2,22 @@ import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
 import type { User } from '@/app/lib/definitions';
 
-/**
- * Fetches the logged in user's details from the database.
- * Returns id, firstName, lastName and bio for each user.
- * Throws an error if the fetch fails.
- */
+
 export async function fetchUser(userId: string) {
   try {
     const users = await prisma.user.findUnique({
       where: { id: userId},
         select: {
-            id: true, firstName: true, lastName: true, bio: true, joined: true, profilePicturePath: true
+            id: true, 
+            firstName: true, 
+            lastName: true, 
+            bio: true, joined: 
+            true, 
+            profilePicturePath: true,
+            following: true,
+            followedBy: true,
+            followRequestsSent: true,
+            followRequestsReceived: true
         }
     });
     return users;
@@ -22,11 +27,6 @@ export async function fetchUser(userId: string) {
   }
 }
 
-/**
- * Fetches a list of users from the database.
- * Only returns firstName, lastName and bio for each user.
- * Throws an error if the fetch fails.
- */
 export async function fetchUsers() {
   try {
     const users = await prisma.user.findMany({
@@ -41,23 +41,26 @@ export async function fetchUsers() {
   }
 }
 
-/**
- * Checks the clerkId of the logged in user against the database.
- * If no matches are found a new user is created in the User database table with their clerkId set as their id.
- * Throws an error if unable to create the user.
- */
 export async function createUserOnDemand() {
   const user = await currentUser();
+
+  if (!user?.id) {
+    console.log('No user or user ID found');
+    return;
+  }
+
+  console.log('Checking for user:', user.id);
+
   const dbUser = await prisma.user.findUnique({ where: { id: user?.id } });
 
   if (!dbUser) {
     try {
       await prisma.user.create({
         data: {
-          id: user?.id,
-          firstName: user?.firstName,
-          lastName: user?.lastName,
-          profilePicturePath: user?.imageUrl
+          id: user.id,
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+          profilePicturePath: user.imageUrl || ""
         } as User,
       });
     } catch(error) {
@@ -175,5 +178,85 @@ export async function createComment(authorId: string, content: string, postId: s
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create comment');
+  }
+}
+
+export async function createFollowRequest(userId: string) {
+  const user = await currentUser();
+  if (!user) throw new Error("No user found")
+    
+  try {
+    await prisma.followRequest.create({
+      data: {
+        fromId: user.id,
+        toId: userId
+      }
+    })
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to follow user');
+  }
+}
+
+export async function acceptFollowRequest(userId: string) {
+  const user = await currentUser();
+  if (!user) throw new Error("No user found")
+
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { followedBy: { connect: { id: userId } } }
+    })
+
+    await prisma.followRequest.deleteMany({
+      where: { fromId: userId, toId: user.id }
+    });
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed accept follow request');
+  }
+}
+
+export async function declineFollowRequest(userId: string) {
+  const user = await currentUser();
+  if (!user) throw new Error("No user found")
+
+  try {
+    await prisma.followRequest.deleteMany({
+      where: { fromId: userId, toId: user.id }
+    });
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed decline follow request');
+  }
+}
+
+export async function unfollowUser(userId: string) {
+  const user = await currentUser();
+  if (!user) throw new Error("No user found")
+
+  try {
+    await prisma.$transaction([
+
+    prisma.user.update({
+      where: { id: user.id},
+      data: { following: { disconnect: { id: userId } } }
+    }),
+
+    prisma.user.update({
+      where: { id: userId },
+      data: { followedBy: { disconnect: { id: user.id} }}
+    }),
+
+    prisma.followRequest.deleteMany({
+        where: { fromId: user.id, toId: userId}
+    }),
+
+    ])
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to unfollow user');
   }
 }

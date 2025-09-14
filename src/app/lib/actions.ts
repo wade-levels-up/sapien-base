@@ -1,6 +1,16 @@
 "use server";
 
-import { createPost, updateBio, createLike, deleteLike, createComment } from "@/app/lib/data";
+import { 
+  createPost, 
+  updateBio, 
+  createLike, 
+  deleteLike, 
+  createComment, 
+  createFollowRequest, 
+  acceptFollowRequest, 
+  declineFollowRequest,
+  unfollowUser 
+} from "@/app/lib/data";
 import { auth } from "@clerk/nextjs/server";
 
 export async function createPostAction(content: string) {
@@ -31,4 +41,20 @@ export async function deleteLikeAction(postId: string) {
   const { userId } = await auth();
   if (!userId) throw new Error('Unable to find user');
   await deleteLike(postId, userId);
+}
+
+export async function createFollowRequestAction(userId: string) {
+  await createFollowRequest(userId);
+}
+
+export async function unfollowUserAction(userId: string) {
+  unfollowUser(userId);
+}
+
+export async function acceptFollowRequestAction(userId: string) {
+  await acceptFollowRequest(userId);
+}
+
+export async function declineFollowRequestAction(userId: string) {
+  await declineFollowRequest(userId);
 }
