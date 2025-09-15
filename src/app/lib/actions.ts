@@ -12,6 +12,7 @@ import {
   unfollowUser 
 } from "@/app/lib/data";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export async function createPostAction(content: string) {
   const { userId } = await auth();
@@ -19,10 +20,19 @@ export async function createPostAction(content: string) {
   await createPost(userId, content);
 }
 
-export async function createCommentAction(content: string, postId: string) {
-  const { userId } = await auth();
-  if (!userId) throw new Error('Unable to find user');
-  await createComment(userId, content, postId);
+export async function createCommentAction(postId: string, content: string) {
+  try {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unable to find user');
+
+    await createComment(userId, content, postId);
+    
+    // Revalidate the specific post page
+    revalidatePath(`/dashboard/posts/${postId}`);
+  } catch (error) {
+    console.error("Action Error:", error);
+    throw new Error("Failed to create comment");
+  }
 }
 
 export async function updateBioAction(content: string) {

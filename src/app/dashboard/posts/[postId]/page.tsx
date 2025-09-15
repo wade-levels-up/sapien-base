@@ -5,8 +5,7 @@ import { format } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import LikeButton from "@/app/ui/dashboard/LikeButton";
-import CreateCommentForm from "@/app/ui/dashboard/CreateCommentForm";
-import Image from "next/image";
+import OptimisticComments from "@/app/ui/dashboard/OptimisticComments";
 
 type PostPageProps = {
   params: {
@@ -64,51 +63,16 @@ export default async function PostPage({ params }: PostPageProps) {
           </article>
         </section>
 
-        <h4 className="text-2xl py-4">Write Comment</h4>
-        <section className="flex justify-center w-full">
-          <CreateCommentForm postId={postId} />
-        </section>
-
-        {comments.length > 0 && (
-          <>
-            {" "}
-            <h5 className="text-2xl py-4">Comments</h5>
-            <section>
-              <ul className="flex flex-col items-center w-full gap-4">
-                {comments.map((comment) => (
-                  <li
-                    className="flex flex-col items-start bg-emerald-950 w-full max-w-2xl"
-                    key={comment.id}
-                  >
-                    <div className="flex justify-start gap-3 w-full px-1 items-center p-2">
-                      <span className="w-[32px] h-[32px] relative rounded-full">
-                        {comment.author.profilePicturePath ? (
-                          <Image
-                            src={comment.author.profilePicturePath}
-                            alt={`${comment.author.firstName} ${comment.author.lastName}`}
-                            fill
-                            className="object-cover rounded-full"
-                            sizes="32px"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gray-400 rounded-full flex items-center justify-center text-xs">
-                            {comment.author.firstName.charAt(0)}
-                          </div>
-                        )}
-                      </span>
-                      <span>
-                        {comment.author.firstName} {comment.author.lastName}
-                      </span>
-                    </div>
-                    <p className="bg-emerald-900 w-full text-left px-1">
-                      {comment.content}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </>
-        )}
+        <OptimisticComments
+          postId={postId}
+          initialComments={comments}
+          currentUser={{
+            id: user.id,
+            firstName: user.firstName || "",
+            lastName: user.lastName || "",
+            imageUrl: user.imageUrl,
+          }}
+        />
       </>
     );
   } catch (error) {

@@ -44,7 +44,7 @@ export default function UserBioSection({
           </p>
         </section>
       ) : (
-        <div className="flex gap-2 items-center flex-col">
+        <div className="flex w-full gap-2 items-center flex-col">
           <span>You do not have a bio yet...</span>
           <h3>Add Bio</h3>
           <UpdateBioForm setUpdating={setUpdating} />
