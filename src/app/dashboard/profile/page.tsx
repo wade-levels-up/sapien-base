@@ -14,7 +14,7 @@ export default async function Profile() {
   const userPosts = await fetchUserPosts(user.id);
 
   return (
-    <div className="w-full flex flex-col items-center gap-4 py-4">
+    <div className="w-full flex flex-col items-center gap-12 py-4">
       <h2>{`${user?.firstName}'s Profile`}</h2>
       <span className="flex">
         <p>Details securely provided by</p>
@@ -102,7 +102,7 @@ export default async function Profile() {
       <section id="Posts" className="max-w-full">
         <h5 className="text-2xl">My Posts</h5>
         {userPosts && userPosts.length > 0 ? (
-          <ul className="flex gap-6 flex-wrap overflow-x-auto">
+          <ul className="flex gap-6 justify-center flex-wrap overflow-x-auto">
             {userPosts.map((post) => (
               <Post key={post.id} postData={post} userId={user?.id} />
             ))}

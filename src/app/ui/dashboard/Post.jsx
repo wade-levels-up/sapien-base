@@ -15,14 +15,14 @@ export default function Post({ postData, userId }) {
     const comments = postData.comments;
 
     return (
-        <article className="flex h-full flex-col w-md border-emerald-500/30 border rounded-sm p-2">
+        <article className="flex w-full max-w-lg flex-col border-emerald-500/30 border rounded-sm p-2">
             <div className="flex justify-between bg-emerald-950 px-1 rounded-sm">
                 <h4>{authorName}</h4>
                 <time dateTime={new Date(createdAt).toISOString()}>
                     {format(new Date(createdAt), "d/M/yy")}
                 </time>
             </div>
-            <p className="grow bg-emerald-900 p-1">{content}</p>    
+            <p className="grow bg-emerald-900 p-2">{content}</p>    
             <span className="flex w-full justify-between pt-4">
                 <div className="flex gap-2 items-center">
                     <span title="Likes"><FontAwesomeIcon icon={faThumbsUp} /> {likesIdArray.length}</span>

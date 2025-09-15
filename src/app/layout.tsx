@@ -15,7 +15,10 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRightToBracket,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const metadata: Metadata = {
   title: "Sapien Base",
@@ -38,13 +41,16 @@ export default function RootLayout({
             <div className="flex gap-2">
               <SignedOut>
                 <SignInButton>
-                  <div className="button no">
+                  <div className="button">
                     <FontAwesomeIcon icon={faRightToBracket} />
                     <p>Sign In</p>
                   </div>
                 </SignInButton>
                 <SignUpButton>
-                  <p className="button">Sign Up</p>
+                  <div className="button">
+                    <FontAwesomeIcon icon={faUserPlus} />
+                    <p>Sign Up</p>
+                  </div>
                 </SignUpButton>
               </SignedOut>
               <SignedIn>

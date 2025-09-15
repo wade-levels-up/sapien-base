@@ -75,7 +75,7 @@ export async function fetchPost(postId: string) {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       include: { 
-        author: { select: { firstName: true } }, 
+        author: { select: { firstName: true, lastName: true } }, 
         likes: { select: { userId: true} }, 
         comments: { select: { id: true, author: { select: { firstName: true, lastName: true, profilePicturePath: true } }, content: true } } 
       }
@@ -96,6 +96,44 @@ export async function fetchPosts() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch posts');
+  }
+}
+
+/* 
+Fetches recent posts within the last 7 days from the current user and
+from users they are following
+*/
+export async function fetchRecentUserAndFollowedPosts() {
+  const user = await currentUser();
+  if (!user) throw new Error("No user found")
+
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  try {
+    const posts = await prisma.post.findMany({
+      where: {
+        OR: [
+          { authorId: user.id},
+          { author: {
+            followedBy: {
+              some: { id: user.id }
+            }
+          }}
+        ],
+        AND: {
+          createdAt: {
+            gte: sevenDaysAgo // Greater than or equal to 7 days ago
+          } 
+        }
+      },
+      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } },
+      orderBy: { createdAt: 'desc' } // Most recent
+    });
+    return posts;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch recent posts from the current user and the users they follow');
   }
 }
 

@@ -25,7 +25,8 @@ export default async function PostPage({ params }: PostPageProps) {
     if (!postData) notFound();
 
     const { id, content, createdAt } = postData;
-    const authorName = postData.author.firstName;
+    const authorName =
+      postData.author.firstName + " " + postData.author.lastName;
     const likesIdArray = postData.likes;
     const likeUserIds = likesIdArray.map(
       (like: { userId: string }) => like.userId

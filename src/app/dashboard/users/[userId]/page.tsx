@@ -66,7 +66,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
       <UserBioSection bio={otherUser?.bio} otherUserProfile={true} />
       <section className="max-w-full">
         <h3>{`${otherUser.firstName}'s Posts`}</h3>
-        <ul className="flex gap-6 flex-wrap overflow-x-auto">
+        <ul className="flex gap-6 justify-center flex-wrap overflow-x-auto">
           {userPosts.map((post) => (
             <Post key={post.id} postData={post} userId={userId} />
           ))}
