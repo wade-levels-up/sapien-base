@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useOptimistic } from "react";
 import UpdateBioForm from "./UpdateBioForm";
 
 type UserBioSectionProps = {
@@ -13,13 +13,19 @@ export default function UserBioSection({
   otherUserProfile,
 }: UserBioSectionProps) {
   const [updating, setUpdating] = useState(false);
+  const [optimisticBio, setOptimisticBio] = useOptimistic(
+    bio,
+    (state, newBio: string) => newBio
+  );
 
   if (otherUserProfile) {
-    if (bio) {
+    if (optimisticBio) {
       return (
         <section className="w-full flex items-center gap-2 flex-col">
           <h3 className="text-2xl">Bio</h3>
-          <p className="px-2 py-4 rounded-lg border-1 border-white/30">{bio}</p>
+          <p className="px-2 py-4 rounded-lg border-1 border-white/30">
+            {optimisticBio}
+          </p>
         </section>
       );
     } else {
@@ -28,26 +34,35 @@ export default function UserBioSection({
   }
 
   if (updating) {
-    return <UpdateBioForm prevContent={bio} setUpdating={setUpdating} />;
+    return (
+      <UpdateBioForm
+        initialContent={optimisticBio}
+        setUpdating={setUpdating}
+        setOptimisticBio={setOptimisticBio}
+      />
+    );
   }
 
   return (
     <div className="w-full max-w-2xl items-center border-emerald-500/30 border rounded-sm p-2 flex flex-col gap-4">
-      {bio ? (
+      {optimisticBio ? (
         <section className="w-full flex items-center flex-col">
           <div className="flex items-center justify-between p-1 w-full bg-emerald-950 rounded-sm">
             <h3>Bio:</h3>
             <button onClick={() => setUpdating(true)}>Update</button>
           </div>
           <p className="w-full px-2 py-4 rounded-lg border-b-1 border-white/30">
-            {bio}
+            {optimisticBio}
           </p>
         </section>
       ) : (
         <div className="flex w-full gap-2 items-center flex-col">
           <span>You do not have a bio yet...</span>
           <h3>Add Bio</h3>
-          <UpdateBioForm setUpdating={setUpdating} />
+          <UpdateBioForm
+            setUpdating={setUpdating}
+            setOptimisticBio={setOptimisticBio}
+          />
         </div>
       )}
     </div>

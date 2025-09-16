@@ -38,7 +38,14 @@ export async function createCommentAction(postId: string, content: string) {
 export async function updateBioAction(content: string) {
   const { userId } = await auth();
   if (!userId) throw new Error('Unable to find user');
-  await updateBio(userId, content);
+  try {
+    await updateBio(userId, content);
+  } catch (error) {
+    console.error("Action Error:", error);
+    throw new Error("Failed to update bio");
+  } finally {
+    revalidatePath(`/dashboard/profile`); // ??????
+  }
 }
 
 export async function createLikeAction(postId: string) {
