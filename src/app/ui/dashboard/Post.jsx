@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-export default function Post({ postData, userId }) {
+export default function Post({ postData, userId, isOptimistic }) {
     const { id, content, createdAt } = postData;
     const authorName = postData.author.firstName;
 
@@ -30,9 +30,9 @@ export default function Post({ postData, userId }) {
                 </div>
                 <div className="flex gap-2 items-center">
                     <Link href={`/dashboard/posts/${id}`}>
-                        <button>Comments</button>
+                        <button disabled={isOptimistic} >Comments</button>
                     </Link>
-                    <LikeButton postId={id} userHasLiked={userHasLiked}/>
+                    <LikeButton postId={id} userHasLiked={userHasLiked} isOptimistic={isOptimistic} />
                 </div>
             </span>
         </article>

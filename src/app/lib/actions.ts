@@ -15,9 +15,17 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 export async function createPostAction(content: string) {
-  const { userId } = await auth();
-  if (!userId) throw new Error('Unable to find user');
-  await createPost(userId, content);
+  try {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unable to find user');
+
+    await createPost(userId, content);
+
+    revalidatePath(`/dashboard}`);
+  } catch(error) {
+    console.error("Action Error:", error);
+    throw new Error("Failed to create post");
+  }
 }
 
 export async function createCommentAction(postId: string, content: string) {

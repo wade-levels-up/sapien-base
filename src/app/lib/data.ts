@@ -61,7 +61,7 @@ export async function createUserOnDemand() {
           firstName: user.firstName || "",
           lastName: user.lastName || "",
           profilePicturePath: user.imageUrl || ""
-        } as User,
+        },
       });
     } catch(error) {
       console.error('Database Error:', error);

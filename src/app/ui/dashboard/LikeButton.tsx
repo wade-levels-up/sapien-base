@@ -9,9 +9,14 @@ import { useState } from "react";
 type LikeButtonProps = {
   postId: string;
   userHasLiked: boolean;
+  isOptimistic: boolean;
 };
 
-export default function LikeButton({ postId, userHasLiked }: LikeButtonProps) {
+export default function LikeButton({
+  postId,
+  userHasLiked,
+  isOptimistic,
+}: LikeButtonProps) {
   const [loading, setLoading] = useState(false);
   const [optimisticLiked, setOptimisticLiked] = useState(userHasLiked);
   const router = useRouter();
@@ -27,7 +32,7 @@ export default function LikeButton({ postId, userHasLiked }: LikeButtonProps) {
 
   return (
     <button
-      disabled={loading}
+      disabled={loading || isOptimistic}
       onClick={handleClick}
       title={optimisticLiked ? "Already liked" : "Like"}
     >
