@@ -1,7 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { fetchRecentUserAndFollowedPosts } from "@/app/lib/data";
-import OptimisticPosts from "../ui/dashboard/OptimisticPosts";
+import OptimisticPosts from "../../ui/dashboard/OptimisticPosts";
 
 export default async function Dashboard() {
   const user = await currentUser();

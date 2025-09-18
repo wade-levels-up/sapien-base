@@ -9,13 +9,13 @@ import { useState } from "react";
 type LikeButtonProps = {
   postId: string;
   userHasLiked: boolean;
-  isOptimistic: boolean;
+  isOptimistic?: boolean;
 };
 
 export default function LikeButton({
   postId,
   userHasLiked,
-  isOptimistic,
+  isOptimistic = false,
 }: LikeButtonProps) {
   const [loading, setLoading] = useState(false);
   const [optimisticLiked, setOptimisticLiked] = useState(userHasLiked);
