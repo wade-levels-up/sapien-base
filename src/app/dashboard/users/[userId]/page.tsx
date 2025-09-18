@@ -36,7 +36,11 @@ export default async function UserProfile({ params }: UserProfileProps) {
 
   return (
     <div className="w-full flex flex-col items-center gap-4 py-4">
-      <h2>{`${otherUser?.firstName}'s Profile`}</h2>
+      {otherUser.firstName ? (
+        <h2>{`${otherUser?.firstName}'s Profile`}</h2>
+      ) : (
+        <h2>Anonymous Profile</h2>
+      )}
       <FollowPane
         following={followRequestSent || following}
         userId={otherUser.id}
@@ -46,7 +50,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
           <Image
             priority
             src={otherUser.profilePicturePath || "/user.jpg"}
-            alt={`${otherUser?.firstName}'s Picture`}
+            alt={`${otherUser?.firstName || "Anonymous"}`}
             fill
             sizes="256px"
             className="cover rounded-xl border-2 border-emerald-950"
@@ -54,7 +58,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
         </div>
         <ul>
           <li>
-            Full Name: {otherUser?.firstName} {otherUser?.lastName}
+            Full Name: {otherUser?.firstName || "??????"} {otherUser?.lastName}
           </li>
           <li>
             Joined:{" "}
@@ -65,7 +69,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
       </div>
       <UserBioSection bio={otherUser?.bio} otherUserProfile={true} />
       <section className="max-w-full">
-        <h3>{`${otherUser.firstName}'s Posts`}</h3>
+        <h3>{`${otherUser.firstName || "Anonymous"}'s Posts`}</h3>
         <ul className="flex gap-6 justify-center flex-wrap overflow-x-auto">
           {userPosts.map((post) => (
             <Post key={post.id} postData={post} userId={userId} />
