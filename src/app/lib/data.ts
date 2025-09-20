@@ -172,12 +172,17 @@ export async function createPost(authorId: string, content: string) {
 
 export async function deletePost(postId: string, userId: string) {
   try {
-    await prisma.comment.deleteMany({
+    await prisma.$transaction([
+     prisma.comment.deleteMany({
       where: { postId: postId }
-    })
-    await prisma.post.deleteMany({
+     }),
+     prisma.like.deleteMany({
+      where: { postId: postId }
+     }),
+     prisma.post.deleteMany({
       where: { id: postId, authorId: userId }
-    })
+     }),
+    ])
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to delete post');
