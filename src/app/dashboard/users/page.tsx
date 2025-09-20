@@ -1,5 +1,4 @@
-import { fetchUsers } from "@/app/lib/data";
-import UserCard from "@/app/ui/dashboard/UserCard";
+import UsersList from "@/app/ui/dashboard/UsersList";
 import UsersSkeleton from "@/app/ui/skeletons/UsersSkeleton";
 import { Suspense } from "react";
 
@@ -13,20 +12,5 @@ export default async function Users() {
         </Suspense>
       </section>
     </div>
-  );
-}
-
-async function UsersList() {
-  const users = await fetchUsers();
-
-  // Add artificial delay to see the loading state
-  await new Promise((resolve) => setTimeout(resolve, 3000)); // 2 second delay
-
-  return (
-    <ul className="flex gap-4 flex-wrap">
-      {users.map((user) => (
-        <UserCard key={user.id} userData={user} />
-      ))}
-    </ul>
   );
 }

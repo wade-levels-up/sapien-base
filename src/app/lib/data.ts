@@ -145,7 +145,7 @@ export async function fetchUserPosts(userId: string) {
     const posts = await prisma.post.findMany({
       where: { authorId: userId },
       include: { 
-        author: { select: { firstName: true } }, 
+        author: { select: { id: true, firstName: true } }, 
         likes: { select: { userId: true} }, 
         comments: { select: { authorId: true, content: true } } 
       }
@@ -167,6 +167,20 @@ export async function createPost(authorId: string, content: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create post');
+  }
+}
+
+export async function deletePost(postId: string, userId: string) {
+  try {
+    await prisma.comment.deleteMany({
+      where: { postId: postId }
+    })
+    await prisma.post.deleteMany({
+      where: { id: postId, authorId: userId }
+    })
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete post');
   }
 }
 

@@ -1,19 +1,14 @@
 import { fetchUsers } from "@/app/lib/data";
-import type { User } from "@/app/lib/definitions";
+import UserCard from "./UserCard";
 
 export default async function UsersList() {
   const users = await fetchUsers();
-  console.log("Fetched users:", users);
+
   return (
-    <div>
-      <h1>Hi</h1>
-      <ul>
-        {users.map((user: User) => (
-          <li key={user.id}>
-            {user.firstName} {user.lastName}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="flex gap-4 flex-wrap">
+      {users.map((user) => (
+        <UserCard key={user.id} userData={user} />
+      ))}
+    </ul>
   );
 }

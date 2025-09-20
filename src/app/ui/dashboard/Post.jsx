@@ -1,12 +1,14 @@
 import { format } from "date-fns";
 import LikeButton from "@/app/ui/dashboard/LikeButton";
+import DeletePostButton from "./DeletePostButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-export default function Post({ postData, userId, isOptimistic = false }) {
+export default function Post({ postData, userId, isOptimistic = false, ownPost = false }) {
     const { id, content, createdAt } = postData;
     const authorName = postData.author.firstName;
+    const authorId = postData.author.id;
 
     const likesIdArray = postData.likes;
     const likeUserIds = likesIdArray.map(like => like.userId);
@@ -33,6 +35,7 @@ export default function Post({ postData, userId, isOptimistic = false }) {
                         <button disabled={isOptimistic} >Comments</button>
                     </Link>
                     <LikeButton postId={id} userHasLiked={userHasLiked} isOptimistic={isOptimistic} />
+                                    {authorId === userId && <DeletePostButton postId={id} userId={userId} />}
                 </div>
             </span>
         </article>

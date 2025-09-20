@@ -9,7 +9,8 @@ import {
   createFollowRequest, 
   acceptFollowRequest, 
   declineFollowRequest,
-  unfollowUser 
+  unfollowUser,
+  deletePost
 } from "@/app/lib/data";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
@@ -82,4 +83,16 @@ export async function acceptFollowRequestAction(userId: string) {
 
 export async function declineFollowRequestAction(userId: string) {
   await declineFollowRequest(userId);
+}
+
+export async function deletePostAction(postId: string, userId: string) {
+  console.log("Attempting to delete..")
+  console.log(postId, userId);
+    try {
+      await deletePost(postId, userId);
+      revalidatePath(`/dashboard/profile`);
+  } catch (error) {
+    console.error("Action Error:", error);
+    throw new Error("Failed to delete post");
+  }
 }
