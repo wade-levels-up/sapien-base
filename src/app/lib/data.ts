@@ -1,7 +1,5 @@
 import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
-import type { User } from '@/app/lib/definitions';
-
 
 export async function fetchUser(userId: string) {
   try {
@@ -93,7 +91,7 @@ export async function fetchPost(postId: string) {
 export async function fetchPosts() {
   try {
     const posts = await prisma.post.findMany({
-      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } }
+      include: { author: { select: { id: true, firstName: true, lastName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } }
     });
     return posts;
   } catch (error) {
@@ -130,7 +128,7 @@ export async function fetchRecentUserAndFollowedPosts() {
           } 
         }
       },
-      include: { author: { select: { firstName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } },
+      include: { author: { select: { id: true, firstName: true, lastName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } },
       orderBy: { createdAt: 'desc' } // Most recent
     });
     return posts;

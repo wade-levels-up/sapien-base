@@ -11,11 +11,52 @@ export type User = {
 
 export type Post = {
   id: string;
-  authorId?: string;
   content: string;
-  author: { firstName: string };
-  comments?: { content: string }[];  // Match your query
-  likes?: { userId: string }[];      // Match your query
   createdAt: Date;
-  postPicturePath?: string;
-}
+  author: {
+    id: string;         
+    firstName: string;
+    lastName: string;    
+  };
+  likes: Array<{
+    userId: string;
+  }>;
+  comments: Array<{
+      id: string;
+      content: string;
+      createdAt: Date;
+      author: {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
+    }>;
+};
+
+export type PostType = {
+  id: string;
+  content: string;
+  createdAt: Date;
+  author: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
+  likes: Array<{
+    userId: string;
+  }>;
+  comments: Array<{
+    id: string;
+    content: string;
+    createdAt: Date;
+    author: {
+      id: string;
+      firstName: string;
+      lastName: string;
+    };
+  }>;
+};
+
+export type PostAction = 
+  | { type: "add"; content: string }
+  | { type: "delete"; postId: string };

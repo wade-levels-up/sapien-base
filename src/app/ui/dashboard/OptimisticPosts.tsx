@@ -11,6 +11,10 @@ type OptimisticPostsProps = {
   currentUserId: string;
 };
 
+type PostAction =
+  | { type: "add"; content: string }
+  | { type: "delete"; postId: string };
+
 export default function OptimisticPosts({
   initialPosts,
   currentUserFirstName,
@@ -18,17 +22,32 @@ export default function OptimisticPosts({
 }: OptimisticPostsProps) {
   const [optimisticPosts, setOptimisticPosts] = useOptimistic(
     initialPosts,
-    (state, newContent: string) => [
-      {
-        id: `temp-${Date.now()}`, // Temporary ID
-        content: newContent,
-        createdAt: new Date(),
-        author: { firstName: currentUserFirstName || "You" },
-        likes: [],
-        comments: [],
-      },
-      ...state,
-    ]
+    (state, action: PostAction) => {
+      switch (action.type) {
+        case "add":
+          return [
+            {
+              id: `temp-${Date.now()}`,
+              content: action.content,
+              createdAt: new Date(),
+              author: {
+                id: currentUserId,
+                firstName: currentUserFirstName || "You",
+                lastName: "",
+              },
+              likes: [],
+              comments: [],
+            },
+            ...state,
+          ];
+
+        case "delete":
+          return state.filter((post) => post.id !== action.postId);
+
+        default:
+          return state;
+      }
+    }
   );
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -38,7 +57,7 @@ export default function OptimisticPosts({
     if (!content.trim()) return;
 
     startTransition(() => {
-      setOptimisticPosts(content);
+      setOptimisticPosts({ type: "add", content });
     });
 
     formRef.current?.reset();
@@ -89,6 +108,7 @@ export default function OptimisticPosts({
                 postData={post}
                 userId={currentUserId}
                 isOptimistic={post.id.startsWith("temp-")}
+                setOptimisticPosts={setOptimisticPosts}
               />
             ))}
           </ul>
