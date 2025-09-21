@@ -27,7 +27,7 @@ export default function OptimisticPosts({
         case "add":
           return [
             {
-              id: `temp-${Date.now()}`,
+              id: `temp-${crypto.randomUUID()}`,
               content: action.content,
               createdAt: new Date(),
               author: {
@@ -112,63 +112,69 @@ export default function OptimisticPosts({
 
   return (
     <>
-      <h3>Create A New Post</h3>
-      <section className="flex w-full justify-center">
-        <form
-          ref={formRef}
-          className="border-emerald-500/30 w-full max-w-2xl border rounded-sm p-2 flex flex-col gap-4"
-          action={handleSubmit}
-        >
-          <label
-            className="w-full bg-emerald-950 px-1 rounded-sm"
-            htmlFor="content"
-          >
-            Post Content
-          </label>
-          <textarea
-            className="px-2 py-2 rounded-lg border-b-1 border-white/30"
-            id="content"
-            name="content"
-            placeholder="Empty your thoughts..."
-            rows={4}
-          />
-          <div className="flex gap-2 justify-end">
-            <button type="submit">Post</button>
-          </div>
-        </form>
-      </section>
-      <hr />
-      {optimisticPosts.length > 0 ? (
-        <>
-          <h3 className="w-full text-center text-2xl">Posts</h3>
-          <ul className="flex flex-col no-wrap max-h-full items-center gap-4">
-            {optimisticPosts.map((post) => (
-              <Post
-                key={post.id}
-                postData={post}
-                userId={currentUserId}
-                isOptimistic={post.id.startsWith("temp-")}
-                setOptimisticPosts={setOptimisticPosts}
+      <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:grid-rows-1 md:max-h-100vh">
+        <div>
+          <h3 className="text-2xl mb-2">Create A New Post</h3>
+          <hr />
+          <section className="flex w-full justify-center">
+            <form
+              ref={formRef}
+              className="border-emerald-500/30 w-full max-w-2xl border rounded-sm p-2 flex flex-col gap-4"
+              action={handleSubmit}
+            >
+              <label
+                className="w-full bg-emerald-950 px-1 rounded-sm"
+                htmlFor="content"
+              >
+                Post Content
+              </label>
+              <textarea
+                className="px-2 py-2 rounded-lg border-b-1 border-white/30"
+                id="content"
+                name="content"
+                placeholder="Empty your thoughts..."
+                rows={4}
               />
-            ))}
-          </ul>
-        </>
-      ) : (
-        <section className="w-full gap-4 flex flex-col items-center">
-          <p>
-            This is your dashboard where you can view recent posts within the
-            last 7 days from other users as well as your own posts.
-          </p>
-          <p className="text-emerald-500">
-            At the moment there is nothing to view.
-          </p>
-          <p>
-            Create a post or look through other users in the Users section and
-            choose people you wish to follow. If those users have posted
-            recently their posts will appear here.
-          </p>
-        </section>
-      )}
+              <div className="flex gap-2 justify-end">
+                <button type="submit">Post</button>
+              </div>
+            </form>
+          </section>
+        </div>
+        {optimisticPosts.length > 0 ? (
+          <section>
+            <h3 className="w-full text-center text-2xl mb-2">Posts</h3>
+            <hr />
+            <ul className="flex flex-col no-wrap md:max-h-[900px] overflow-y-auto items-center gap-4">
+              {optimisticPosts.map((post) => (
+                <Post
+                  key={post.id}
+                  postData={post}
+                  userId={currentUserId}
+                  isOptimistic={post.id.startsWith("temp-")}
+                  setOptimisticPosts={setOptimisticPosts}
+                />
+              ))}
+            </ul>
+            <hr />
+          </section>
+        ) : (
+          <section className="w-full gap-4 flex flex-col items-center">
+            <p>
+              This is your dashboard where you can view recent posts within the
+              last 7 days from other users as well as your own posts.
+            </p>
+            <p className="text-emerald-500">
+              At the moment there is nothing to view.
+            </p>
+            <p>
+              Create a post or look through other users in the Users section and
+              choose people you wish to follow. If those users have posted
+              recently their posts will appear here.
+            </p>
+          </section>
+        )}
+      </div>
     </>
   );
 }

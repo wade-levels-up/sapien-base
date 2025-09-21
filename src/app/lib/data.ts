@@ -40,60 +40,6 @@ export async function fetchUsers() {
   }
 }
 
-export const createUserOnDemand = unstable_cache(
-  async (clerkUser: {
-    id: string;
-    firstName: string | null;
-    lastName: string | null;
-    imageUrl: string;
-  }) => {
-    console.log('Checking for user:', clerkUser.id);
-
-    const dbUser = await prisma.user.findUnique({ 
-      where: { id: clerkUser.id } 
-    });
-
-    if (!dbUser) {
-      console.log('Creating new user:', clerkUser.id);
-      
-      await prisma.user.create({
-        data: {
-          id: clerkUser.id,
-          firstName: clerkUser.firstName || '',
-          lastName: clerkUser.lastName || '',
-          profilePicturePath: clerkUser.imageUrl || undefined
-        },
-      });
-      
-      console.log('User created successfully');
-    } else {
-      console.log('User already exists');
-    }
-  },
-  ['user-creation'], // Static cache key
-  {
-    revalidate: 60 * 60 * 24, // Cache for 24 hours
-    tags: ['user-creation']
-  }
-);
-
-// Helper function to use in your layout
-export async function createUserOnDemandWrapper() {
-  const user = await currentUser(); // Get user OUTSIDE the cache
-  
-  if (!user?.id) {
-    console.log('No user or user ID found');
-    return;
-  }
-
-  return await createUserOnDemand({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    imageUrl: user.imageUrl || ''
-  });
-}
-
 export async function fetchPost(postId: string) {
   try {
     const post = await prisma.post.findUnique({

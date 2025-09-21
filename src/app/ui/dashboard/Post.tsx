@@ -30,7 +30,13 @@ export default function Post({
   const comments = postData.comments;
 
   return (
-    <article className="flex w-full max-w-lg flex-col border-emerald-500/30 border rounded-sm p-2">
+    <article
+      className={`flex w-full max-w-lg flex-col border-emerald-500/30 border rounded-sm p-2 ${
+        isOptimistic
+          ? "opacity-70 grayscale-[80%] blur-[0.7px]"
+          : "opacity-100 grayscale-0 blur-0"
+      }`}
+    >
       <div className="flex justify-between bg-emerald-950 px-1 rounded-sm items-center">
         <h4>{authorName}</h4>
         <time dateTime={new Date(createdAt).toISOString()}>

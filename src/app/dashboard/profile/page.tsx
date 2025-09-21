@@ -9,21 +9,18 @@ import OptimisticPosts from "@/app/ui/dashboard/OptimisticPosts";
 
 export default async function Profile() {
   const user = await currentUser();
+
   if (!user) redirect("/");
+
   const dbUser = await fetchUser(user.id);
+
   const userPosts = await fetchUserPosts(user.id);
 
   return (
     <>
       <h2 className="w-full text-center">{`${user?.firstName}'s Profile`}</h2>
       <div className="md:grid md:grid-cols-2 md:auto-rows-auto w-full flex flex-col items-center gap-12 py-4 flex-wrap">
-        <section className="md:w-full">
-          <span className="flex">
-            <p>Details securely provided by</p>
-            <a className="ml-1" href="http://clerk.com/" target="_blank">
-              Clerk
-            </a>
-          </span>
+        <section className="md:w-full flex flex-col items-center p-2">
           <div className="flex gap-4 flex-col md:flex-row md:flex-wrap items-center">
             <div className="relative w-[192px] h-[192px] md:w-[256px] md:h-[256px] md:min-w-[256px]">
               <Image

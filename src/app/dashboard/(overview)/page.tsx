@@ -11,16 +11,17 @@ export default async function Dashboard() {
   const posts = await fetchRecentUserAndFollowedPosts();
 
   return (
-    <div className="flex gap-2 flex-col py-4 max-h-full w-full">
+    <>
       <h2 className="w-full text-center">Dashboard</h2>
-      <hr />
-      <OptimisticPosts
-        initialPosts={posts}
-        currentUserFirstName={user.firstName}
-        currentUserLastName={user.lastName}
-        currentUserId={user.id}
-        includeForm={true}
-      />
-    </div>
+      <div className="flex gap-2 flex-col py-4 max-h-full w-full">
+        <OptimisticPosts
+          initialPosts={posts}
+          currentUserFirstName={user.firstName}
+          currentUserLastName={user.lastName}
+          currentUserId={user.id}
+          includeForm={true}
+        />
+      </div>
+    </>
   );
 }
