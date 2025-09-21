@@ -4,29 +4,49 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faUndo } from "@fortawesome/free-solid-svg-icons";
 import { createLikeAction, deleteLikeAction } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { startTransition, useState } from "react";
+import type { PostAction } from "@/app/lib/definitions";
 
 type LikeButtonProps = {
   postId: string;
   userHasLiked: boolean;
   isOptimistic?: boolean;
+  setOptimisticPosts?: (action: PostAction) => void;
 };
 
 export default function LikeButton({
   postId,
   userHasLiked,
   isOptimistic = false,
+  setOptimisticPosts,
 }: LikeButtonProps) {
   const [loading, setLoading] = useState(false);
-  const [optimisticLiked, setOptimisticLiked] = useState(userHasLiked);
-  const router = useRouter();
 
   async function handleClick() {
     setLoading(true);
-    setOptimisticLiked(!userHasLiked);
-    if (!userHasLiked) await createLikeAction(postId);
-    if (userHasLiked) await deleteLikeAction(postId);
-    router.refresh();
+
+    if (!userHasLiked) {
+      startTransition(() => {
+        setOptimisticPosts?.({ type: "like", postId });
+      });
+
+      try {
+        await createLikeAction(postId);
+      } catch (error) {
+        console.error("❌ createLikeAction failed:", error);
+      }
+    } else {
+      startTransition(() => {
+        setOptimisticPosts?.({ type: "unlike", postId });
+      });
+
+      try {
+        await deleteLikeAction(postId);
+      } catch (error) {
+        console.error("❌ deleteLikeAction failed:", error);
+      }
+    }
+
     setLoading(false);
   }
 
@@ -34,10 +54,10 @@ export default function LikeButton({
     <button
       disabled={loading || isOptimistic}
       onClick={handleClick}
-      title={optimisticLiked ? "Already liked" : "Like"}
+      title={userHasLiked ? "Already liked" : "Like"}
     >
-      <FontAwesomeIcon icon={optimisticLiked ? faUndo : faThumbsUp} />
-      {optimisticLiked ? "Unlike" : "Like"}
+      <FontAwesomeIcon icon={userHasLiked ? faUndo : faThumbsUp} />
+      {userHasLiked ? "Unlike" : "Like"}
     </button>
   );
 }

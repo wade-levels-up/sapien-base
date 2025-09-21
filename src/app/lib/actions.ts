@@ -22,7 +22,7 @@ export async function createPostAction(content: string) {
 
     await createPost(userId, content);
 
-    revalidatePath(`/dashboard}`);
+    revalidatePath('/dashboard', 'layout');
   } catch(error) {
     console.error("Action Error:", error);
     throw new Error("Failed to create post");
@@ -37,7 +37,7 @@ export async function createCommentAction(postId: string, content: string) {
     await createComment(userId, content, postId);
     
     // Revalidate the specific post page
-    revalidatePath(`/dashboard/posts/${postId}`);
+    revalidatePath('/dashboard', 'layout');
   } catch (error) {
     console.error("Action Error:", error);
     throw new Error("Failed to create comment");
@@ -53,20 +53,32 @@ export async function updateBioAction(content: string) {
     console.error("Action Error:", error);
     throw new Error("Failed to update bio");
   } finally {
-    revalidatePath(`/dashboard/profile`); // ??????
+    revalidatePath('/dashboard', 'layout');
   }
 }
 
 export async function createLikeAction(postId: string) {
     const { userId } = await auth();
     if (!userId) throw new Error('Unable to find user');
-    await createLike(postId, userId);
+    try {
+      await createLike(postId, userId);
+      revalidatePath('/dashboard', 'layout');
+    } catch (error) {
+    console.error("Action Error:", error);
+    throw new Error("Failed to update like");
+  }
 }
 
 export async function deleteLikeAction(postId: string) {
   const { userId } = await auth();
   if (!userId) throw new Error('Unable to find user');
-  await deleteLike(postId, userId);
+  try {
+     await deleteLike(postId, userId);
+     revalidatePath('/dashboard', 'layout');
+  } catch (error) {
+    console.error("Action Error:", error);
+    throw new Error("Failed to delete like");
+  }
 }
 
 export async function createFollowRequestAction(userId: string) {
@@ -86,11 +98,9 @@ export async function declineFollowRequestAction(userId: string) {
 }
 
 export async function deletePostAction(postId: string, userId: string) {
-  console.log("Attempting to delete..")
-  console.log(postId, userId);
-    try {
-      await deletePost(postId, userId);
-      revalidatePath(`/dashboard/profile`);
+  try {
+    await deletePost(postId, userId);
+    revalidatePath('/dashboard', 'layout');
   } catch (error) {
     console.error("Action Error:", error);
     throw new Error("Failed to delete post");

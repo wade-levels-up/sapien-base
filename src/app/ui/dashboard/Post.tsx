@@ -4,17 +4,13 @@ import DeletePostButton from "./DeletePostButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import type { PostType } from "@/app/lib/definitions";
+import type { PostAction, PostType } from "@/app/lib/definitions";
 
 type PostProps = {
   postData: PostType;
   userId: string;
   isOptimistic?: boolean;
-  setOptimisticPosts: (
-    action:
-      | { type: "add"; content: string }
-      | { type: "delete"; postId: string }
-  ) => void;
+  setOptimisticPosts?: (action: PostAction) => void;
 };
 
 export default function Post({
@@ -58,6 +54,7 @@ export default function Post({
           postId={id}
           userHasLiked={userHasLiked}
           isOptimistic={isOptimistic}
+          setOptimisticPosts={setOptimisticPosts}
         />
         <Link href={`/dashboard/posts/${id}`}>
           <button disabled={isOptimistic}>Comments</button>
@@ -67,6 +64,7 @@ export default function Post({
             postId={id}
             userId={userId}
             setOptimisticPosts={setOptimisticPosts}
+            isOptimistic={isOptimistic}
           />
         )}
       </div>

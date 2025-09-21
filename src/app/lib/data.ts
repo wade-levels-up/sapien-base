@@ -128,7 +128,7 @@ export async function fetchRecentUserAndFollowedPosts() {
           } 
         }
       },
-      include: { author: { select: { id: true, firstName: true, lastName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } },
+      include: { author: { select: { id: true, firstName: true, lastName: true } }, likes: { select: { userId: true} }, comments: { select: { id: true, content: true, createdAt: true, author: { select: { id: true, firstName: true, lastName: true } } } } },
       orderBy: { createdAt: 'desc' } // Most recent
     });
     return posts;
@@ -142,18 +142,44 @@ export async function fetchUserPosts(userId: string) {
   try {
     const posts = await prisma.post.findMany({
       where: { authorId: userId },
-      include: { 
-        author: { select: { id: true, firstName: true } }, 
-        likes: { select: { userId: true} }, 
-        comments: { select: { authorId: true, content: true } } 
-      }
+      include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          }
+        },
+        comments: {
+          select: {
+            id: true,    
+            content: true,
+            createdAt: true,   
+            author: {           
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              }
+            }
+          }
+        },
+        likes: {
+          select: {
+            userId: true,
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
     });
+    
     return posts;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch posts');
+    throw new Error('Failed to fetch user posts');
   }
 }
+
 
 export async function createPost(authorId: string, content: string) {
   try {

@@ -3,22 +3,22 @@
 import { startTransition, useOptimistic, useRef } from "react";
 import { createPostAction } from "@/app/lib/actions";
 import Post from "@/app/ui/dashboard/Post";
-import type { Post as PostType } from "@/app/lib/definitions";
+import type { Post as PostType, PostAction } from "@/app/lib/definitions";
 
 type OptimisticPostsProps = {
   initialPosts: PostType[];
-  currentUserFirstName: string | null;
+  currentUserFirstName?: string | null;
+  currentUserLastName?: string | null;
   currentUserId: string;
+  includeForm?: boolean;
 };
-
-type PostAction =
-  | { type: "add"; content: string }
-  | { type: "delete"; postId: string };
 
 export default function OptimisticPosts({
   initialPosts,
   currentUserFirstName,
+  currentUserLastName,
   currentUserId,
+  includeForm = false,
 }: OptimisticPostsProps) {
   const [optimisticPosts, setOptimisticPosts] = useOptimistic(
     initialPosts,
@@ -33,7 +33,7 @@ export default function OptimisticPosts({
               author: {
                 id: currentUserId,
                 firstName: currentUserFirstName || "You",
-                lastName: "",
+                lastName: currentUserLastName || "",
               },
               likes: [],
               comments: [],
@@ -43,6 +43,30 @@ export default function OptimisticPosts({
 
         case "delete":
           return state.filter((post) => post.id !== action.postId);
+
+        case "like":
+          return state.map((post) => {
+            if (post.id === action.postId) {
+              return {
+                ...post,
+                likes: [...post.likes, { userId: currentUserId }],
+              };
+            }
+            return post;
+          });
+
+        case "unlike":
+          return state.map((post) => {
+            if (post.id === action.postId) {
+              return {
+                ...post,
+                likes: post.likes.filter(
+                  (like) => like.userId !== currentUserId
+                ),
+              };
+            }
+            return post;
+          });
 
         default:
           return state;
@@ -68,6 +92,22 @@ export default function OptimisticPosts({
       console.error("Database Error:", error);
       throw new Error("Unable to create post");
     }
+  }
+
+  if (!includeForm) {
+    return (
+      <ul className="flex gap-6 justify-start flex-wrap">
+        {optimisticPosts.map((post) => (
+          <Post
+            key={post.id}
+            postData={post}
+            userId={currentUserId}
+            isOptimistic={post.id.startsWith("temp-")}
+            setOptimisticPosts={setOptimisticPosts}
+          />
+        ))}
+      </ul>
+    );
   }
 
   return (

@@ -57,6 +57,8 @@ export type PostType = {
   }>;
 };
 
-export type PostAction = 
+export type PostAction =
   | { type: "add"; content: string }
-  | { type: "delete"; postId: string };
+  | { type: "delete"; postId: string }
+  | { type: "like"; postId: string }
+  | { type: "unlike"; postId: string };

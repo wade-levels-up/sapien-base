@@ -8,21 +8,25 @@ import { startTransition } from "react";
 type DeletePostButtonProps = {
   postId: string;
   userId: string;
-  setOptimisticPosts: (
+  setOptimisticPosts?: (
     action:
       | { type: "add"; content: string }
       | { type: "delete"; postId: string }
   ) => void;
+  isOptimistic: boolean;
 };
 
 export default function DeletePostButton({
   postId,
   userId,
   setOptimisticPosts,
+  isOptimistic = false,
 }: DeletePostButtonProps) {
   async function handleDeletePost() {
     startTransition(() => {
-      setOptimisticPosts({ type: "delete", postId });
+      if (setOptimisticPosts) {
+        setOptimisticPosts({ type: "delete", postId });
+      }
     });
 
     try {
@@ -34,7 +38,7 @@ export default function DeletePostButton({
   }
 
   return (
-    <button onClick={handleDeletePost}>
+    <button disabled={isOptimistic} onClick={handleDeletePost}>
       <FontAwesomeIcon icon={faX} />
       Delete
     </button>

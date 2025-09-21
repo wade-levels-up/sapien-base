@@ -17,7 +17,9 @@ export default async function Dashboard() {
       <OptimisticPosts
         initialPosts={posts}
         currentUserFirstName={user.firstName}
+        currentUserLastName={user.lastName}
         currentUserId={user.id}
+        includeForm={true}
       />
     </div>
   );
