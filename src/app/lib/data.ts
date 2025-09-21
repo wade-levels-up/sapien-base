@@ -1,5 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
+import { unstable_cache } from 'next/cache'; 
 
 export async function fetchUser(userId: string) {
   try {
@@ -39,33 +40,58 @@ export async function fetchUsers() {
   }
 }
 
-export async function createUserOnDemand() {
-  const user = await currentUser();
+export const createUserOnDemand = unstable_cache(
+  async (clerkUser: {
+    id: string;
+    firstName: string | null;
+    lastName: string | null;
+    imageUrl: string;
+  }) => {
+    console.log('Checking for user:', clerkUser.id);
 
+    const dbUser = await prisma.user.findUnique({ 
+      where: { id: clerkUser.id } 
+    });
+
+    if (!dbUser) {
+      console.log('Creating new user:', clerkUser.id);
+      
+      await prisma.user.create({
+        data: {
+          id: clerkUser.id,
+          firstName: clerkUser.firstName || '',
+          lastName: clerkUser.lastName || '',
+          profilePicturePath: clerkUser.imageUrl || undefined
+        },
+      });
+      
+      console.log('User created successfully');
+    } else {
+      console.log('User already exists');
+    }
+  },
+  ['user-creation'], // Static cache key
+  {
+    revalidate: 60 * 60 * 24, // Cache for 24 hours
+    tags: ['user-creation']
+  }
+);
+
+// Helper function to use in your layout
+export async function createUserOnDemandWrapper() {
+  const user = await currentUser(); // Get user OUTSIDE the cache
+  
   if (!user?.id) {
     console.log('No user or user ID found');
     return;
   }
 
-  console.log('Checking for user:', user.id);
-
-  const dbUser = await prisma.user.findUnique({ where: { id: user?.id } });
-
-  if (!dbUser) {
-    try {
-      await prisma.user.create({
-        data: {
-          id: user.id,
-          firstName: user.firstName || "",
-          lastName: user.lastName || "",
-          profilePicturePath: user.imageUrl || ""
-        },
-      });
-    } catch(error) {
-      console.error('Database Error:', error);
-      throw new Error('Failed to create user on-demand');
-    }
-  }
+  return await createUserOnDemand({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    imageUrl: user.imageUrl || ''
+  });
 }
 
 export async function fetchPost(postId: string) {

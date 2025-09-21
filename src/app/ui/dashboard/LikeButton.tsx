@@ -3,7 +3,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faUndo } from "@fortawesome/free-solid-svg-icons";
 import { createLikeAction, deleteLikeAction } from "@/app/lib/actions";
-import { useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 import type { PostAction } from "@/app/lib/definitions";
 
