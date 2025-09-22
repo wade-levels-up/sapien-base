@@ -1,6 +1,33 @@
 import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
 
+export async function createUserOnDemand() {
+  const user = await currentUser();
+
+  if (!user?.id) {
+    return;
+  }
+
+  try {
+    const dbUser = await prisma.user.findUnique({ 
+      where: { id: user.id } 
+    });
+
+    if (!dbUser) {
+      await prisma.user.create({
+        data: {
+          id: user.id,
+          firstName: user.firstName || '',
+          lastName: user.lastName || '',
+          profilePicturePath: user.imageUrl || '',
+        },
+      });
+    }
+  } catch (error) {
+    console.error('Database Error:', error);
+  }
+}
+
 export async function fetchUser(userId: string) {
   try {
     const users = await prisma.user.findUnique({
