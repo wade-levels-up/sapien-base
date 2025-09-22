@@ -34,6 +34,7 @@ export default function OptimisticPosts({
                 id: currentUserId,
                 firstName: currentUserFirstName || "You",
                 lastName: currentUserLastName || "",
+                profilePicturePath: "",
               },
               likes: [],
               comments: [],
@@ -120,7 +121,7 @@ export default function OptimisticPosts({
 
   return (
     <>
-      <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:grid-rows-1 md:max-h-100vh">
+      <div className="relative flex flex-col gap-2 md:grid md:grid-cols-2 md:grid-rows-1 md:max-h-100vh">
         <div>
           <h3 className="text-2xl mb-2">Create A New Post</h3>
           <hr />
@@ -153,7 +154,7 @@ export default function OptimisticPosts({
           <section className="h-full">
             <h3 className="w-full text-center text-2xl mb-2">Posts</h3>
             <hr />
-            <ul className="flex flex-col no-wrap min-h-full md:max-h-[900px] overflow-y-auto items-center gap-4">
+            <ul className="flex flex-col no-wrap pb-2 items-center gap-4">
               {optimisticPosts.map((post) => (
                 <Post
                   key={post.id}
@@ -167,7 +168,7 @@ export default function OptimisticPosts({
             <hr />
           </section>
         ) : (
-          <section className="w-full gap-4 flex flex-col items-center">
+          <section className="w-full pt-8 gap-4 flex flex-col justify-center items-center">
             <p>
               This is your dashboard where you can view recent posts within the
               last 7 days from other users as well as your own posts.

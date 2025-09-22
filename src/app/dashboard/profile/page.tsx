@@ -18,7 +18,7 @@ export default async function Profile() {
 
   return (
     <>
-      <h2 className="w-full text-center">{`${user?.firstName}'s Profile`}</h2>
+      <h2 className="w-full text-center">Your Profile</h2>
       <div className="md:grid md:grid-cols-2 md:auto-rows-auto w-full flex flex-col items-center gap-12 py-4 flex-wrap">
         <section className="md:w-full flex flex-col items-center p-2">
           <div className="flex gap-4 flex-col md:flex-row md:flex-wrap items-center">

@@ -14,13 +14,13 @@ export default async function FollowRequest({ userId }: FollowRequestProps) {
   return (
     <li className="bg-emerald-950 hover:bg-emerald-900 hover:cursor-pointer rounded-md flex flex-col gap-2 w-xs items-center">
       <div className="p-2 flex gap-3 w-full items-center">
-        <div className="relative w-[80px] h-[80px] rounded-full border-1">
+        <div className="relative w-[48px] h-[48px] rounded-full border-1">
           {user.profilePicturePath && (
             <Image
               src={user.profilePicturePath}
               alt={`${user.firstName}'s Profile Picture`}
               fill
-              sizes="80px"
+              sizes="48px"
               className="object-cover rounded-full"
             />
           )}

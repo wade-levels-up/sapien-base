@@ -41,6 +41,7 @@ export type PostType = {
     id: string;
     firstName: string;
     lastName: string;
+    profilePicturePath?: string;
   };
   likes: Array<{
     userId: string;

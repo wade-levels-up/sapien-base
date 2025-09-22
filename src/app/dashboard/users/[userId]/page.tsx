@@ -42,10 +42,12 @@ export default async function UserProfile({ params }: UserProfileProps) {
       ) : (
         <h2>Anonymous Profile</h2>
       )}
-      <FollowPane
-        following={followRequestSent || following}
-        userId={otherUser.id}
-      />
+      {user.id !== dbUser.id && (
+        <FollowPane
+          following={followRequestSent || following}
+          userId={otherUser.id}
+        />
+      )}
       <div className="flex gap-4 flex-col md:flex-row items-center">
         <div className="relative w-[192px] h-[192px] md:w-[256px] md:h-[256px]">
           <Image
@@ -70,7 +72,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
       </div>
       <UserBioSection bio={otherUser?.bio} otherUserProfile={true} />
       {userPosts.length > 0 && (
-        <section className="max-w-full">
+        <section className="w-full">
           <h3 className="text-2xl mb-2">{`${
             otherUser.firstName || "Anonymous"
           }'s Posts`}</h3>

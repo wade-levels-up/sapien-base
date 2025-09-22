@@ -62,7 +62,7 @@ export async function fetchPost(postId: string) {
 export async function fetchPosts() {
   try {
     const posts = await prisma.post.findMany({
-      include: { author: { select: { id: true, firstName: true, lastName: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } }
+      include: { author: { select: { id: true, firstName: true, lastName: true, profilePicturePath: true } }, likes: { select: { userId: true} }, comments: { select: { content: true } } }
     });
     return posts;
   } catch (error) {
@@ -99,7 +99,7 @@ export async function fetchRecentUserAndFollowedPosts() {
           } 
         }
       },
-      include: { author: { select: { id: true, firstName: true, lastName: true } }, likes: { select: { userId: true} }, comments: { select: { id: true, content: true, createdAt: true, author: { select: { id: true, firstName: true, lastName: true } } } } },
+      include: { author: { select: { id: true, firstName: true, lastName: true, profilePicturePath: true } }, likes: { select: { userId: true} }, comments: { select: { id: true, content: true, createdAt: true, author: { select: { id: true, firstName: true, lastName: true } } } } },
       orderBy: { createdAt: 'desc' } // Most recent
     });
     return posts;
@@ -131,6 +131,7 @@ export async function fetchUserPosts(userId: string) {
                 id: true,
                 firstName: true,
                 lastName: true,
+                profilePicturePath: true,
               }
             }
           }
