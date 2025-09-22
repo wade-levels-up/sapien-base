@@ -1,6 +1,5 @@
 import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
-import { unstable_cache } from 'next/cache'; 
 
 export async function fetchUser(userId: string) {
   try {
@@ -45,10 +44,10 @@ export async function fetchPost(postId: string) {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       include: { 
-        author: { select: { firstName: true, lastName: true } }, 
+        author: { select: { id: true, firstName: true, lastName: true } }, 
         likes: { select: { userId: true} }, 
         comments: { 
-          select: { id: true, author: { select: { firstName: true, lastName: true, profilePicturePath: true } }, content: true },
+          select: { id: true, content: true, createdAt: true, author: { select: { id: true, firstName: true, lastName: true, profilePicturePath: true } } },
           orderBy: { createdAt: 'desc'} 
         }, 
       },

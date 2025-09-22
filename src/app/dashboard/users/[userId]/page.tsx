@@ -5,6 +5,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import FollowPane from "@/app/ui/dashboard/FollowPane";
+import OptimisticPosts from "@/app/ui/dashboard/OptimisticPosts";
 
 type UserProfileProps = {
   params: {
@@ -68,14 +69,14 @@ export default async function UserProfile({ params }: UserProfileProps) {
         </ul>
       </div>
       <UserBioSection bio={otherUser?.bio} otherUserProfile={true} />
-      <section className="max-w-full">
-        <h3>{`${otherUser.firstName || "Anonymous"}'s Posts`}</h3>
-        <ul className="flex gap-6 justify-center flex-wrap overflow-x-auto">
-          {userPosts.map((post) => (
-            <Post key={post.id} postData={post} userId={userId} />
-          ))}
-        </ul>
-      </section>
+      {userPosts.length > 0 && (
+        <section className="max-w-full">
+          <h3 className="text-2xl mb-2">{`${
+            otherUser.firstName || "Anonymous"
+          }'s Posts`}</h3>
+          <OptimisticPosts initialPosts={userPosts} currentUserId={user.id} />
+        </section>
+      )}
     </div>
   );
 }

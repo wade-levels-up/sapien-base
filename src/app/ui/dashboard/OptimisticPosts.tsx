@@ -96,17 +96,25 @@ export default function OptimisticPosts({
 
   if (!includeForm) {
     return (
-      <ul className="flex gap-6 justify-start flex-wrap">
-        {optimisticPosts.map((post) => (
-          <Post
-            key={post.id}
-            postData={post}
-            userId={currentUserId}
-            isOptimistic={post.id.startsWith("temp-")}
-            setOptimisticPosts={setOptimisticPosts}
-          />
-        ))}
-      </ul>
+      <div className="flex w-full justify-cente">
+        <ul
+          className={`${
+            optimisticPosts.length <= 1
+              ? "grid grid-cols-1"
+              : "grid grid-cols-2"
+          } w-full gap-4 place-items-center`}
+        >
+          {optimisticPosts.map((post) => (
+            <Post
+              key={post.id}
+              postData={post}
+              userId={currentUserId}
+              isOptimistic={post.id.startsWith("temp-")}
+              setOptimisticPosts={setOptimisticPosts}
+            />
+          ))}
+        </ul>
+      </div>
     );
   }
 
@@ -142,10 +150,10 @@ export default function OptimisticPosts({
           </section>
         </div>
         {optimisticPosts.length > 0 ? (
-          <section>
+          <section className="h-full">
             <h3 className="w-full text-center text-2xl mb-2">Posts</h3>
             <hr />
-            <ul className="flex flex-col no-wrap md:max-h-[900px] overflow-y-auto items-center gap-4">
+            <ul className="flex flex-col no-wrap min-h-full md:max-h-[900px] overflow-y-auto items-center gap-4">
               {optimisticPosts.map((post) => (
                 <Post
                   key={post.id}

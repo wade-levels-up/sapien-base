@@ -94,7 +94,13 @@ export async function acceptFollowRequestAction(userId: string) {
 }
 
 export async function declineFollowRequestAction(userId: string) {
-  await declineFollowRequest(userId);
+  try {
+    await declineFollowRequest(userId);
+    revalidatePath('/dashboard', 'layout');
+  } catch (error) {
+    console.error("Failed to unfollow user", error);
+    throw new Error("Failed to unfollow user")
+  }
 }
 
 export async function deletePostAction(postId: string, userId: string) {
