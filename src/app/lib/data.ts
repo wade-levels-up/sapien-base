@@ -2,18 +2,27 @@ import { prisma } from '@/app/lib/prisma'
 import { currentUser } from "@clerk/nextjs/server";
 
 export async function createUserOnDemand() {
+  console.log('Starting createUserOnDemand...');
+  
   const user = await currentUser();
+  console.log('Clerk user:', user?.id);
 
   if (!user?.id) {
+    console.log('No user ID found');
     return;
   }
 
   try {
+    console.log('Attempting database connection...');
+    
     const dbUser = await prisma.user.findUnique({ 
       where: { id: user.id } 
     });
+    
+    console.log('Database query successful, user found:', !!dbUser);
 
     if (!dbUser) {
+      console.log('Creating new user in database...');
       await prisma.user.create({
         data: {
           id: user.id,
@@ -22,9 +31,11 @@ export async function createUserOnDemand() {
           profilePicturePath: user.imageUrl || '',
         },
       });
+      console.log('User created successfully');
     }
   } catch (error) {
     console.error('Database Error:', error);
+    throw error; 
   }
 }
 
