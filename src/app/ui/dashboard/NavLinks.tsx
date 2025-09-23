@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function NavLinks() {
   return (
-    <nav className="bg-emerald-500/5 z-10 backdrop-blur-xs p-2 sticky bottom-0 md:block border-1 border-emerald-500/10">
+    <nav className="bg-emerald-500/5 z-10 backdrop-blur-xs p-2 fixed bottom-0 md:block border-1 border-emerald-500/10">
       <ul className="flex md:flex-col gap-2 justify-evenly">
         <li>
           <Link href={"/dashboard/profile"}>Profile</Link>
