@@ -17,11 +17,6 @@ export async function createUserOnDemand() {
     console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
     console.log('DATABASE_URL starts with:', process.env.DATABASE_URL?.substring(0, 20));
     
-    // Test basic Prisma connection first
-    console.log('Testing prisma connection...');
-    await prisma.$connect();
-    console.log('Prisma connected successfully');
-    
     // Now try the actual query
     console.log('Attempting findUnique with user ID:', user.id);
     const dbUser = await prisma.user.findUnique({ 
