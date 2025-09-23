@@ -14,7 +14,16 @@ export async function createUserOnDemand() {
 
   try {
     console.log('Attempting database connection...');
+    console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+    console.log('DATABASE_URL starts with:', process.env.DATABASE_URL?.substring(0, 20));
     
+    // Test basic Prisma connection first
+    console.log('Testing prisma connection...');
+    await prisma.$connect();
+    console.log('Prisma connected successfully');
+    
+    // Now try the actual query
+    console.log('Attempting findUnique with user ID:', user.id);
     const dbUser = await prisma.user.findUnique({ 
       where: { id: user.id } 
     });
@@ -34,7 +43,13 @@ export async function createUserOnDemand() {
       console.log('User created successfully');
     }
   } catch (error) {
-    console.error('Database Error:', error);
+    // Type assertion to handle the unknown error type
+    const err = error as Error;
+    console.error('Database Error Details:', {
+      name: err.name,
+      message: err.message,
+      stack: err.stack
+    });
     throw error; 
   }
 }
