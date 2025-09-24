@@ -16,7 +16,7 @@ export default async function Layout({
   return (
     <div className="flex h-full max-h-screen flex-col-reverse md:flex-row">
       <NavLinks />
-      <main className="px-4 grow text-center w-full overflow-auto">
+      <main className="px-4 grow text-center w-full overflow-auto mb-16 md:mb-0">
         {children}
       </main>
     </div>
