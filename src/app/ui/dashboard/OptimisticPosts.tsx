@@ -97,13 +97,9 @@ export default function OptimisticPosts({
 
   if (!includeForm) {
     return (
-      <div className="flex w-full justify-cente">
+      <div className="flex w-full justify-center">
         <ul
-          className={`${
-            optimisticPosts.length <= 1
-              ? "grid grid-cols-1"
-              : "grid grid-cols-2"
-          } w-full gap-4 place-items-center`}
+          className={`grid grid-cols-1 md:grid-cols-2 w-full gap-4 place-items-center`}
         >
           {optimisticPosts.map((post) => (
             <Post

@@ -9,8 +9,7 @@ export const prisma =
       db: {
         url: process.env.DATABASE_URL
       }
-    },
-    log: ['query', 'info', 'warn', 'error'],
+    }
   });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;

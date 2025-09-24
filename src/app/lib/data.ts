@@ -167,6 +167,7 @@ export async function fetchUserPosts(userId: string) {
             id: true,
             firstName: true,
             lastName: true,
+            profilePicturePath: true,
           }
         },
         comments: {
