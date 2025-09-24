@@ -1,6 +1,5 @@
 import { fetchUser, fetchUserPosts } from "@/app/lib/data";
 import UserBioSection from "@/app/ui/dashboard/UserBioSection";
-import Post from "@/app/ui/dashboard/Post";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
