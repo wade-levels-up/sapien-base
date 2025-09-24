@@ -1,40 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Sapien-Base
 
-## Getting Started
+This was a learning project I undertook as part of The Odin Project curriculum.
+This particular project is my submission for the "Odin-Book" project, which is the final project of the Node.js section.
 
-First, run the development server:
+## Objective
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The objective of this project was to create a social media web application similar to something like Facebook. The app would require users to sign up before seeing the content of other users such as posts and comments. Users who were signed up could also create posts and make comments as well as like posts. Users also had to be able to update their bio and see their own posts via their Profile page. Posts displayed via the dashboard would be from the logged in user or the users they were following. Users are also able to follow (and unfollow) other users which will determine what they see on the dashboard screen upon logging in.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Takeaways
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project (whilst not requiring it via The Odin Project) was one that I took as an opportunity to learn Next.js and, authentication and user management via Clerk.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- I learnt about how to create routes using Next.js's App Router. These included but were not limited to dynamic routes, layouts and templates.
 
-## Learn More
+- I learnt the difference between client components and server components and that by default Next.js uses server components to render content server side.
 
-To learn more about Next.js, take a look at the following resources:
+- A best practice as far as client components is concerned is keeping them to small child components that require interactivity. (A like button VS the entire post being a client component for example)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next has in-built components such as Image and Link. Image optimizes images to present the right size for the viewing device as well as presenting the image in a format that's web friendly and minimizes overall file size. Rendering images using the Image component also helps to reduce layout shift
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The Link component enables Next.js to pre-fetch the pages that are linked to and saves the browser refreshing each time a link is visited, which gives that 'Single Page Application' feel.
 
-## Deploy on Vercel
+- Another thing I learnt, whilst not specific to Next.js is React's useOptimistic hook which came in handy for providing snappy user interactions as well as displaying skeleton loaders for elements whilst asynchronous operations were being carried out
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Reflections
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Overall I'm pretty happy with how this project turned out! I didn't spend as much time here as I did on my Budding Messenger application, but largely this was due to how much faster Next.js was to develop with. Not having to create a seperate API for my backend an document end points sped up development ALOT despite challenges configuring my Supabase PostgreSQL database in the cloud being a bit more of a confusing process due to connection strings sometimes working better as a direct string, other times (Such as in deployment) requiring a connection string with pooling
 
-## Image Credits
-
-Credit to Photo by <a href="https://unsplash.com/@lovesquish?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Jessica Christian</a> on <a href="https://unsplash.com/photos/an-empty-parking-lot-at-night-with-a-street-light-sI6T-OSRkpo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+Debugging was also a bit different, but something I adapted to. It focused more on looking through Next's logs rather than developer tools on the front end.
