@@ -42,7 +42,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
       ) : (
         <h2>Anonymous Profile</h2>
       )}
-      {user.id !== dbUser.id && (
+      {userId !== dbUser.id && (
         <FollowPane
           following={followRequestSent || following}
           userId={otherUser.id}

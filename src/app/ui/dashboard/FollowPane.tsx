@@ -42,7 +42,7 @@ export default function FollowPane({ userId, following }: FollowPaneProps) {
   }
 
   return (
-    <div className="flex items-center gap-4 bg-emerald-950 rounded-xl w-2xl justify-center p-2">
+    <div className="flex items-center gap-4 bg-emerald-950 rounded-xl w-full md:w-lg justify-center p-2">
       {isfollowing ? (
         <button disabled={loading} onClick={handleUnfollowUser}>
           Unfollow / Delete Follow Request
