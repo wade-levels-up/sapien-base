@@ -9,6 +9,16 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="relative flex flex-col items-center h-full">
+      <div className="absolute bottom-0 right-0 z-1 mr-2">
+        Photo Credit To{" "}
+        <a href="https://unsplash.com/@lovesquish?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+          Jessica Christian
+        </a>{" "}
+        on{" "}
+        <a href="https://unsplash.com/photos/an-empty-parking-lot-at-night-with-a-street-light-sI6T-OSRkpo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+          Unsplash
+        </a>
+      </div>
       <Image
         src="/jessica-christian-sI6T-OSRkpo-unsplash.jpg"
         alt="Rooftop views in Orlando at night"
