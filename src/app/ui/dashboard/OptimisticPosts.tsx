@@ -99,7 +99,9 @@ export default function OptimisticPosts({
     return (
       <div className="flex w-full justify-center">
         <ul
-          className={`grid grid-cols-1 md:grid-cols-2 w-full gap-4 place-items-center`}
+          className={`grid grid-cols-1 ${
+            optimisticPosts.length > 1 && "md:grid-cols-2"
+          } w-full gap-4 place-items-center`}
         >
           {optimisticPosts.map((post) => (
             <Post

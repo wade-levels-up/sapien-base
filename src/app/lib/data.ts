@@ -92,7 +92,7 @@ export async function fetchPost(postId: string) {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       include: { 
-        author: { select: { id: true, firstName: true, lastName: true } }, 
+        author: { select: { id: true, firstName: true, lastName: true, profilePicturePath: true } }, 
         likes: { select: { userId: true} }, 
         comments: { 
           select: { id: true, content: true, createdAt: true, author: { select: { id: true, firstName: true, lastName: true, profilePicturePath: true } } },
